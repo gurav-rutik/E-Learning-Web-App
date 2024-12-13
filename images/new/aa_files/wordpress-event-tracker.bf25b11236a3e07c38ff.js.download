@@ -1,0 +1,3245 @@
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["wordpress-event-tracker"],{
+
+/***/ "./node_modules/axios/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("./node_modules/axios/lib/axios.js");
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/adapters/xhr.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+var settle = __webpack_require__("./node_modules/axios/lib/core/settle.js");
+var buildURL = __webpack_require__("./node_modules/axios/lib/helpers/buildURL.js");
+var parseHeaders = __webpack_require__("./node_modules/axios/lib/helpers/parseHeaders.js");
+var isURLSameOrigin = __webpack_require__("./node_modules/axios/lib/helpers/isURLSameOrigin.js");
+var createError = __webpack_require__("./node_modules/axios/lib/core/createError.js");
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request.onreadystatechange = function handleLoad() {
+      if (!request || request.readyState !== 4) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        status: request.status,
+        statusText: request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle browser request cancellation (as opposed to a manual cancellation)
+    request.onabort = function handleAbort() {
+      if (!request) {
+        return;
+      }
+
+      reject(createError('Request aborted', config, 'ECONNABORTED', request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config, null, request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+        request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__("./node_modules/axios/lib/helpers/cookies.js");
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+        cookies.read(config.xsrfCookieName) :
+        undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
+        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
+        if (config.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/axios.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+var bind = __webpack_require__("./node_modules/axios/lib/helpers/bind.js");
+var Axios = __webpack_require__("./node_modules/axios/lib/core/Axios.js");
+var mergeConfig = __webpack_require__("./node_modules/axios/lib/core/mergeConfig.js");
+var defaults = __webpack_require__("./node_modules/axios/lib/defaults.js");
+
+/**
+ * Create an instance of Axios
+ *
+ * @param {Object} defaultConfig The default config for the instance
+ * @return {Axios} A new instance of Axios
+ */
+function createInstance(defaultConfig) {
+  var context = new Axios(defaultConfig);
+  var instance = bind(Axios.prototype.request, context);
+
+  // Copy axios.prototype to instance
+  utils.extend(instance, Axios.prototype, context);
+
+  // Copy context to instance
+  utils.extend(instance, context);
+
+  return instance;
+}
+
+// Create the default instance to be exported
+var axios = createInstance(defaults);
+
+// Expose Axios class to allow class inheritance
+axios.Axios = Axios;
+
+// Factory for creating new instances
+axios.create = function create(instanceConfig) {
+  return createInstance(mergeConfig(axios.defaults, instanceConfig));
+};
+
+// Expose Cancel & CancelToken
+axios.Cancel = __webpack_require__("./node_modules/axios/lib/cancel/Cancel.js");
+axios.CancelToken = __webpack_require__("./node_modules/axios/lib/cancel/CancelToken.js");
+axios.isCancel = __webpack_require__("./node_modules/axios/lib/cancel/isCancel.js");
+
+// Expose all/spread
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+axios.spread = __webpack_require__("./node_modules/axios/lib/helpers/spread.js");
+
+module.exports = axios;
+
+// Allow use of default import syntax in TypeScript
+module.exports.default = axios;
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/cancel/Cancel.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/cancel/CancelToken.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__("./node_modules/axios/lib/cancel/Cancel.js");
+
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+
+  var token = this;
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/cancel/isCancel.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/core/Axios.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+var buildURL = __webpack_require__("./node_modules/axios/lib/helpers/buildURL.js");
+var InterceptorManager = __webpack_require__("./node_modules/axios/lib/core/InterceptorManager.js");
+var dispatchRequest = __webpack_require__("./node_modules/axios/lib/core/dispatchRequest.js");
+var mergeConfig = __webpack_require__("./node_modules/axios/lib/core/mergeConfig.js");
+
+/**
+ * Create a new instance of Axios
+ *
+ * @param {Object} instanceConfig The default config for the instance
+ */
+function Axios(instanceConfig) {
+  this.defaults = instanceConfig;
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+}
+
+/**
+ * Dispatch a request
+ *
+ * @param {Object} config The config specific for this request (merged with this.defaults)
+ */
+Axios.prototype.request = function request(config) {
+  /*eslint no-param-reassign:0*/
+  // Allow for axios('example/url'[, config]) a la fetch API
+  if (typeof config === 'string') {
+    config = arguments[1] || {};
+    config.url = arguments[0];
+  } else {
+    config = config || {};
+  }
+
+  config = mergeConfig(this.defaults, config);
+  config.method = config.method ? config.method.toLowerCase() : 'get';
+
+  // Hook up interceptors middleware
+  var chain = [dispatchRequest, undefined];
+  var promise = Promise.resolve(config);
+
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    chain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  while (chain.length) {
+    promise = promise.then(chain.shift(), chain.shift());
+  }
+
+  return promise;
+};
+
+Axios.prototype.getUri = function getUri(config) {
+  config = mergeConfig(this.defaults, config);
+  return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, '');
+};
+
+// Provide aliases for supported request methods
+utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url
+    }));
+  };
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, data, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url,
+      data: data
+    }));
+  };
+});
+
+module.exports = Axios;
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/core/InterceptorManager.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/core/createError.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__("./node_modules/axios/lib/core/enhanceError.js");
+
+/**
+ * Create an Error with the specified message, config, error code, request and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, request, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, request, response);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/core/dispatchRequest.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+var transformData = __webpack_require__("./node_modules/axios/lib/core/transformData.js");
+var isCancel = __webpack_require__("./node_modules/axios/lib/cancel/isCancel.js");
+var defaults = __webpack_require__("./node_modules/axios/lib/defaults.js");
+var isAbsoluteURL = __webpack_require__("./node_modules/axios/lib/helpers/isAbsoluteURL.js");
+var combineURLs = __webpack_require__("./node_modules/axios/lib/helpers/combineURLs.js");
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+
+/**
+ * Dispatch a request to the server using the configured adapter.
+ *
+ * @param {object} config The config that is to be used for the request
+ * @returns {Promise} The Promise to be fulfilled
+ */
+module.exports = function dispatchRequest(config) {
+  throwIfCancellationRequested(config);
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
+
+  // Ensure headers exist
+  config.headers = config.headers || {};
+
+  // Transform request data
+  config.data = transformData(
+    config.data,
+    config.headers,
+    config.transformRequest
+  );
+
+  // Flatten headers
+  config.headers = utils.merge(
+    config.headers.common || {},
+    config.headers[config.method] || {},
+    config.headers || {}
+  );
+
+  utils.forEach(
+    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+    function cleanHeaderConfig(method) {
+      delete config.headers[method];
+    }
+  );
+
+  var adapter = config.adapter || defaults.adapter;
+
+  return adapter(config).then(function onAdapterResolution(response) {
+    throwIfCancellationRequested(config);
+
+    // Transform response data
+    response.data = transformData(
+      response.data,
+      response.headers,
+      config.transformResponse
+    );
+
+    return response;
+  }, function onAdapterRejection(reason) {
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+
+      // Transform response data
+      if (reason && reason.response) {
+        reason.response.data = transformData(
+          reason.response.data,
+          reason.response.headers,
+          config.transformResponse
+        );
+      }
+    }
+
+    return Promise.reject(reason);
+  });
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/core/enhanceError.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+module.exports = function enhanceError(error, config, code, request, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+
+  error.request = request;
+  error.response = response;
+  error.isAxiosError = true;
+
+  error.toJSON = function() {
+    return {
+      // Standard
+      message: this.message,
+      name: this.name,
+      // Microsoft
+      description: this.description,
+      number: this.number,
+      // Mozilla
+      fileName: this.fileName,
+      lineNumber: this.lineNumber,
+      columnNumber: this.columnNumber,
+      stack: this.stack,
+      // Axios
+      config: this.config,
+      code: this.code
+    };
+  };
+  return error;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/core/mergeConfig.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+
+/**
+ * Config-specific merge-function which creates a new config-object
+ * by merging two configuration objects together.
+ *
+ * @param {Object} config1
+ * @param {Object} config2
+ * @returns {Object} New object resulting from merging config2 to config1
+ */
+module.exports = function mergeConfig(config1, config2) {
+  // eslint-disable-next-line no-param-reassign
+  config2 = config2 || {};
+  var config = {};
+
+  utils.forEach(['url', 'method', 'params', 'data'], function valueFromConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    }
+  });
+
+  utils.forEach(['headers', 'auth', 'proxy'], function mergeDeepProperties(prop) {
+    if (utils.isObject(config2[prop])) {
+      config[prop] = utils.deepMerge(config1[prop], config2[prop]);
+    } else if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (utils.isObject(config1[prop])) {
+      config[prop] = utils.deepMerge(config1[prop]);
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+
+  utils.forEach([
+    'baseURL', 'transformRequest', 'transformResponse', 'paramsSerializer',
+    'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
+    'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'maxContentLength',
+    'validateStatus', 'maxRedirects', 'httpAgent', 'httpsAgent', 'cancelToken',
+    'socketPath'
+  ], function defaultToConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+
+  return config;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/core/settle.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createError = __webpack_require__("./node_modules/axios/lib/core/createError.js");
+
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  if (!validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError(
+      'Request failed with status code ' + response.status,
+      response.config,
+      null,
+      response.request,
+      response
+    ));
+  }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/core/transformData.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+
+/**
+ * Transform the data for a request or a response
+ *
+ * @param {Object|String} data The data to be transformed
+ * @param {Array} headers The headers for the request or response
+ * @param {Array|Function} fns A single function or Array of functions
+ * @returns {*} The resulting transformed data
+ */
+module.exports = function transformData(data, headers, fns) {
+  /*eslint no-param-reassign:0*/
+  utils.forEach(fns, function transform(fn) {
+    data = fn(data, headers);
+  });
+
+  return data;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/defaults.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+var normalizeHeaderName = __webpack_require__("./node_modules/axios/lib/helpers/normalizeHeaderName.js");
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  // Only Node.JS has a process variable that is of [[Class]] process
+  if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__("./node_modules/axios/lib/adapters/xhr.js");
+  } else if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__("./node_modules/axios/lib/adapters/xhr.js");
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Accept');
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("./node_modules/process/browser.js")))
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/bind.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/buildURL.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+
+function encode(val) {
+  return encodeURIComponent(val).
+    replace(/%40/gi, '@').
+    replace(/%3A/gi, ':').
+    replace(/%24/g, '$').
+    replace(/%2C/gi, ',').
+    replace(/%20/g, '+').
+    replace(/%5B/gi, '[').
+    replace(/%5D/gi, ']');
+}
+
+/**
+ * Build a URL by appending params to the end
+ *
+ * @param {string} url The base of the url (e.g., http://www.google.com)
+ * @param {object} [params] The params to be appended
+ * @returns {string} The formatted url
+ */
+module.exports = function buildURL(url, params, paramsSerializer) {
+  /*eslint no-param-reassign:0*/
+  if (!params) {
+    return url;
+  }
+
+  var serializedParams;
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (utils.isURLSearchParams(params)) {
+    serializedParams = params.toString();
+  } else {
+    var parts = [];
+
+    utils.forEach(params, function serialize(val, key) {
+      if (val === null || typeof val === 'undefined') {
+        return;
+      }
+
+      if (utils.isArray(val)) {
+        key = key + '[]';
+      } else {
+        val = [val];
+      }
+
+      utils.forEach(val, function parseValue(v) {
+        if (utils.isDate(v)) {
+          v = v.toISOString();
+        } else if (utils.isObject(v)) {
+          v = JSON.stringify(v);
+        }
+        parts.push(encode(key) + '=' + encode(v));
+      });
+    });
+
+    serializedParams = parts.join('&');
+  }
+
+  if (serializedParams) {
+    var hashmarkIndex = url.indexOf('#');
+    if (hashmarkIndex !== -1) {
+      url = url.slice(0, hashmarkIndex);
+    }
+
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+  }
+
+  return url;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/combineURLs.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return relativeURL
+    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+    : baseURL;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/cookies.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs support document.cookie
+    (function standardBrowserEnv() {
+      return {
+        write: function write(name, value, expires, path, domain, secure) {
+          var cookie = [];
+          cookie.push(name + '=' + encodeURIComponent(value));
+
+          if (utils.isNumber(expires)) {
+            cookie.push('expires=' + new Date(expires).toGMTString());
+          }
+
+          if (utils.isString(path)) {
+            cookie.push('path=' + path);
+          }
+
+          if (utils.isString(domain)) {
+            cookie.push('domain=' + domain);
+          }
+
+          if (secure === true) {
+            cookie.push('secure');
+          }
+
+          document.cookie = cookie.join('; ');
+        },
+
+        read: function read(name) {
+          var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+          return (match ? decodeURIComponent(match[3]) : null);
+        },
+
+        remove: function remove(name) {
+          this.write(name, '', Date.now() - 86400000);
+        }
+      };
+    })() :
+
+  // Non standard browser env (web workers, react-native) lack needed support.
+    (function nonStandardBrowserEnv() {
+      return {
+        write: function write() {},
+        read: function read() { return null; },
+        remove: function remove() {}
+      };
+    })()
+);
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/isAbsoluteURL.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/isURLSameOrigin.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+    (function standardBrowserEnv() {
+      var msie = /(msie|trident)/i.test(navigator.userAgent);
+      var urlParsingNode = document.createElement('a');
+      var originURL;
+
+      /**
+    * Parse a URL to discover it's components
+    *
+    * @param {String} url The URL to be parsed
+    * @returns {Object}
+    */
+      function resolveURL(url) {
+        var href = url;
+
+        if (msie) {
+        // IE needs attribute set twice to normalize properties
+          urlParsingNode.setAttribute('href', href);
+          href = urlParsingNode.href;
+        }
+
+        urlParsingNode.setAttribute('href', href);
+
+        // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+        return {
+          href: urlParsingNode.href,
+          protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+          host: urlParsingNode.host,
+          search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+          hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+          hostname: urlParsingNode.hostname,
+          port: urlParsingNode.port,
+          pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+            urlParsingNode.pathname :
+            '/' + urlParsingNode.pathname
+        };
+      }
+
+      originURL = resolveURL(window.location.href);
+
+      /**
+    * Determine if a URL shares the same origin as the current location
+    *
+    * @param {String} requestURL The URL to test
+    * @returns {boolean} True if URL shares the same origin, otherwise false
+    */
+      return function isURLSameOrigin(requestURL) {
+        var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+        return (parsed.protocol === originURL.protocol &&
+            parsed.host === originURL.host);
+      };
+    })() :
+
+  // Non standard browser envs (web workers, react-native) lack needed support.
+    (function nonStandardBrowserEnv() {
+      return function isURLSameOrigin() {
+        return true;
+      };
+    })()
+);
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/normalizeHeaderName.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
+    }
+  });
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/parseHeaders.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__("./node_modules/axios/lib/utils.js");
+
+// Headers whose duplicates are ignored by node
+// c.f. https://nodejs.org/api/http.html#http_message_headers
+var ignoreDuplicateOf = [
+  'age', 'authorization', 'content-length', 'content-type', 'etag',
+  'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since',
+  'last-modified', 'location', 'max-forwards', 'proxy-authorization',
+  'referer', 'retry-after', 'user-agent'
+];
+
+/**
+ * Parse headers into an object
+ *
+ * ```
+ * Date: Wed, 27 Aug 2014 08:58:49 GMT
+ * Content-Type: application/json
+ * Connection: keep-alive
+ * Transfer-Encoding: chunked
+ * ```
+ *
+ * @param {String} headers Headers needing to be parsed
+ * @returns {Object} Headers parsed into an object
+ */
+module.exports = function parseHeaders(headers) {
+  var parsed = {};
+  var key;
+  var val;
+  var i;
+
+  if (!headers) { return parsed; }
+
+  utils.forEach(headers.split('\n'), function parser(line) {
+    i = line.indexOf(':');
+    key = utils.trim(line.substr(0, i)).toLowerCase();
+    val = utils.trim(line.substr(i + 1));
+
+    if (key) {
+      if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
+        return;
+      }
+      if (key === 'set-cookie') {
+        parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
+      } else {
+        parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+      }
+    }
+  });
+
+  return parsed;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/spread.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Syntactic sugar for invoking a function and expanding an array for arguments.
+ *
+ * Common use case would be to use `Function.prototype.apply`.
+ *
+ *  ```js
+ *  function f(x, y, z) {}
+ *  var args = [1, 2, 3];
+ *  f.apply(null, args);
+ *  ```
+ *
+ * With `spread` this example can be re-written.
+ *
+ *  ```js
+ *  spread(function(x, y, z) {})([1, 2, 3]);
+ *  ```
+ *
+ * @param {Function} callback
+ * @returns {Function}
+ */
+module.exports = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/utils.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bind = __webpack_require__("./node_modules/axios/lib/helpers/bind.js");
+var isBuffer = __webpack_require__("./node_modules/axios/node_modules/is-buffer/index.js");
+
+/*global toString:true*/
+
+// utils is a library of generic helper functions non-specific to axios
+
+var toString = Object.prototype.toString;
+
+/**
+ * Determine if a value is an Array
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Array, otherwise false
+ */
+function isArray(val) {
+  return toString.call(val) === '[object Array]';
+}
+
+/**
+ * Determine if a value is an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an ArrayBuffer, otherwise false
+ */
+function isArrayBuffer(val) {
+  return toString.call(val) === '[object ArrayBuffer]';
+}
+
+/**
+ * Determine if a value is a FormData
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an FormData, otherwise false
+ */
+function isFormData(val) {
+  return (typeof FormData !== 'undefined') && (val instanceof FormData);
+}
+
+/**
+ * Determine if a value is a view on an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
+ */
+function isArrayBufferView(val) {
+  var result;
+  if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
+    result = ArrayBuffer.isView(val);
+  } else {
+    result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
+  }
+  return result;
+}
+
+/**
+ * Determine if a value is a String
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a String, otherwise false
+ */
+function isString(val) {
+  return typeof val === 'string';
+}
+
+/**
+ * Determine if a value is a Number
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Number, otherwise false
+ */
+function isNumber(val) {
+  return typeof val === 'number';
+}
+
+/**
+ * Determine if a value is undefined
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if the value is undefined, otherwise false
+ */
+function isUndefined(val) {
+  return typeof val === 'undefined';
+}
+
+/**
+ * Determine if a value is an Object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Object, otherwise false
+ */
+function isObject(val) {
+  return val !== null && typeof val === 'object';
+}
+
+/**
+ * Determine if a value is a Date
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Date, otherwise false
+ */
+function isDate(val) {
+  return toString.call(val) === '[object Date]';
+}
+
+/**
+ * Determine if a value is a File
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a File, otherwise false
+ */
+function isFile(val) {
+  return toString.call(val) === '[object File]';
+}
+
+/**
+ * Determine if a value is a Blob
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Blob, otherwise false
+ */
+function isBlob(val) {
+  return toString.call(val) === '[object Blob]';
+}
+
+/**
+ * Determine if a value is a Function
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Function, otherwise false
+ */
+function isFunction(val) {
+  return toString.call(val) === '[object Function]';
+}
+
+/**
+ * Determine if a value is a Stream
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Stream, otherwise false
+ */
+function isStream(val) {
+  return isObject(val) && isFunction(val.pipe);
+}
+
+/**
+ * Determine if a value is a URLSearchParams object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a URLSearchParams object, otherwise false
+ */
+function isURLSearchParams(val) {
+  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
+}
+
+/**
+ * Trim excess whitespace off the beginning and end of a string
+ *
+ * @param {String} str The String to trim
+ * @returns {String} The String freed of excess whitespace
+ */
+function trim(str) {
+  return str.replace(/^\s*/, '').replace(/\s*$/, '');
+}
+
+/**
+ * Determine if we're running in a standard browser environment
+ *
+ * This allows axios to run in a web worker, and react-native.
+ * Both environments support XMLHttpRequest, but not fully standard globals.
+ *
+ * web workers:
+ *  typeof window -> undefined
+ *  typeof document -> undefined
+ *
+ * react-native:
+ *  navigator.product -> 'ReactNative'
+ * nativescript
+ *  navigator.product -> 'NativeScript' or 'NS'
+ */
+function isStandardBrowserEnv() {
+  if (typeof navigator !== 'undefined' && (navigator.product === 'ReactNative' ||
+                                           navigator.product === 'NativeScript' ||
+                                           navigator.product === 'NS')) {
+    return false;
+  }
+  return (
+    typeof window !== 'undefined' &&
+    typeof document !== 'undefined'
+  );
+}
+
+/**
+ * Iterate over an Array or an Object invoking a function for each item.
+ *
+ * If `obj` is an Array callback will be called passing
+ * the value, index, and complete array for each item.
+ *
+ * If 'obj' is an Object callback will be called passing
+ * the value, key, and complete object for each property.
+ *
+ * @param {Object|Array} obj The object to iterate
+ * @param {Function} fn The callback to invoke for each item
+ */
+function forEach(obj, fn) {
+  // Don't bother if no value provided
+  if (obj === null || typeof obj === 'undefined') {
+    return;
+  }
+
+  // Force an array if not already something iterable
+  if (typeof obj !== 'object') {
+    /*eslint no-param-reassign:0*/
+    obj = [obj];
+  }
+
+  if (isArray(obj)) {
+    // Iterate over array values
+    for (var i = 0, l = obj.length; i < l; i++) {
+      fn.call(null, obj[i], i, obj);
+    }
+  } else {
+    // Iterate over object keys
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        fn.call(null, obj[key], key, obj);
+      }
+    }
+  }
+}
+
+/**
+ * Accepts varargs expecting each argument to be an object, then
+ * immutably merges the properties of each object and returns result.
+ *
+ * When multiple objects contain the same key the later object in
+ * the arguments list will take precedence.
+ *
+ * Example:
+ *
+ * ```js
+ * var result = merge({foo: 123}, {foo: 456});
+ * console.log(result.foo); // outputs 456
+ * ```
+ *
+ * @param {Object} obj1 Object to merge
+ * @returns {Object} Result of all merge properties
+ */
+function merge(/* obj1, obj2, obj3, ... */) {
+  var result = {};
+  function assignValue(val, key) {
+    if (typeof result[key] === 'object' && typeof val === 'object') {
+      result[key] = merge(result[key], val);
+    } else {
+      result[key] = val;
+    }
+  }
+
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    forEach(arguments[i], assignValue);
+  }
+  return result;
+}
+
+/**
+ * Function equal to merge with the difference being that no reference
+ * to original objects is kept.
+ *
+ * @see merge
+ * @param {Object} obj1 Object to merge
+ * @returns {Object} Result of all merge properties
+ */
+function deepMerge(/* obj1, obj2, obj3, ... */) {
+  var result = {};
+  function assignValue(val, key) {
+    if (typeof result[key] === 'object' && typeof val === 'object') {
+      result[key] = deepMerge(result[key], val);
+    } else if (typeof val === 'object') {
+      result[key] = deepMerge({}, val);
+    } else {
+      result[key] = val;
+    }
+  }
+
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    forEach(arguments[i], assignValue);
+  }
+  return result;
+}
+
+/**
+ * Extends object a by mutably adding to it the properties of object b.
+ *
+ * @param {Object} a The object to be extended
+ * @param {Object} b The object to copy properties from
+ * @param {Object} thisArg The object to bind function to
+ * @return {Object} The resulting value of object a
+ */
+function extend(a, b, thisArg) {
+  forEach(b, function assignValue(val, key) {
+    if (thisArg && typeof val === 'function') {
+      a[key] = bind(val, thisArg);
+    } else {
+      a[key] = val;
+    }
+  });
+  return a;
+}
+
+module.exports = {
+  isArray: isArray,
+  isArrayBuffer: isArrayBuffer,
+  isBuffer: isBuffer,
+  isFormData: isFormData,
+  isArrayBufferView: isArrayBufferView,
+  isString: isString,
+  isNumber: isNumber,
+  isObject: isObject,
+  isUndefined: isUndefined,
+  isDate: isDate,
+  isFile: isFile,
+  isBlob: isBlob,
+  isFunction: isFunction,
+  isStream: isStream,
+  isURLSearchParams: isURLSearchParams,
+  isStandardBrowserEnv: isStandardBrowserEnv,
+  forEach: forEach,
+  merge: merge,
+  deepMerge: deepMerge,
+  extend: extend,
+  trim: trim
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/node_modules/is-buffer/index.js":
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/js-cookie/src/js.cookie.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * JavaScript Cookie v2.1.4
+ * https://github.com/js-cookie/js-cookie
+ *
+ * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
+ * Released under the MIT license
+ */
+;(function (factory) {
+	var registeredInModuleLoader = false;
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		registeredInModuleLoader = true;
+	}
+	if (true) {
+		module.exports = factory();
+		registeredInModuleLoader = true;
+	}
+	if (!registeredInModuleLoader) {
+		var OldCookies = window.Cookies;
+		var api = window.Cookies = factory();
+		api.noConflict = function () {
+			window.Cookies = OldCookies;
+			return api;
+		};
+	}
+}(function () {
+	function extend () {
+		var i = 0;
+		var result = {};
+		for (; i < arguments.length; i++) {
+			var attributes = arguments[ i ];
+			for (var key in attributes) {
+				result[key] = attributes[key];
+			}
+		}
+		return result;
+	}
+
+	function init (converter) {
+		function api (key, value, attributes) {
+			var result;
+			if (typeof document === 'undefined') {
+				return;
+			}
+
+			// Write
+
+			if (arguments.length > 1) {
+				attributes = extend({
+					path: '/'
+				}, api.defaults, attributes);
+
+				if (typeof attributes.expires === 'number') {
+					var expires = new Date();
+					expires.setMilliseconds(expires.getMilliseconds() + attributes.expires * 864e+5);
+					attributes.expires = expires;
+				}
+
+				// We're using "expires" because "max-age" is not supported by IE
+				attributes.expires = attributes.expires ? attributes.expires.toUTCString() : '';
+
+				try {
+					result = JSON.stringify(value);
+					if (/^[\{\[]/.test(result)) {
+						value = result;
+					}
+				} catch (e) {}
+
+				if (!converter.write) {
+					value = encodeURIComponent(String(value))
+						.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
+				} else {
+					value = converter.write(value, key);
+				}
+
+				key = encodeURIComponent(String(key));
+				key = key.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent);
+				key = key.replace(/[\(\)]/g, escape);
+
+				var stringifiedAttributes = '';
+
+				for (var attributeName in attributes) {
+					if (!attributes[attributeName]) {
+						continue;
+					}
+					stringifiedAttributes += '; ' + attributeName;
+					if (attributes[attributeName] === true) {
+						continue;
+					}
+					stringifiedAttributes += '=' + attributes[attributeName];
+				}
+				return (document.cookie = key + '=' + value + stringifiedAttributes);
+			}
+
+			// Read
+
+			if (!key) {
+				result = {};
+			}
+
+			// To prevent the for loop in the first place assign an empty array
+			// in case there are no cookies at all. Also prevents odd result when
+			// calling "get()"
+			var cookies = document.cookie ? document.cookie.split('; ') : [];
+			var rdecode = /(%[0-9A-Z]{2})+/g;
+			var i = 0;
+
+			for (; i < cookies.length; i++) {
+				var parts = cookies[i].split('=');
+				var cookie = parts.slice(1).join('=');
+
+				if (cookie.charAt(0) === '"') {
+					cookie = cookie.slice(1, -1);
+				}
+
+				try {
+					var name = parts[0].replace(rdecode, decodeURIComponent);
+					cookie = converter.read ?
+						converter.read(cookie, name) : converter(cookie, name) ||
+						cookie.replace(rdecode, decodeURIComponent);
+
+					if (this.json) {
+						try {
+							cookie = JSON.parse(cookie);
+						} catch (e) {}
+					}
+
+					if (key === name) {
+						result = cookie;
+						break;
+					}
+
+					if (!key) {
+						result[name] = cookie;
+					}
+				} catch (e) {}
+			}
+
+			return result;
+		}
+
+		api.set = api;
+		api.get = function (key) {
+			return api.call(api, key);
+		};
+		api.getJSON = function () {
+			return api.apply({
+				json: true
+			}, [].slice.call(arguments));
+		};
+		api.defaults = {};
+
+		api.remove = function (key, attributes) {
+			api(key, '', extend(attributes, {
+				expires: -1
+			}));
+		};
+
+		api.withConverter = init;
+
+		return api;
+	}
+
+	return init(function () {});
+}));
+
+
+/***/ }),
+
+/***/ "./node_modules/uuid/lib/bytesToUuid.js":
+/***/ (function(module, exports) {
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+var byteToHex = [];
+for (var i = 0; i < 256; ++i) {
+  byteToHex[i] = (i + 0x100).toString(16).substr(1);
+}
+
+function bytesToUuid(buf, offset) {
+  var i = offset || 0;
+  var bth = byteToHex;
+  // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
+  return ([bth[buf[i++]], bth[buf[i++]], 
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]]]).join('');
+}
+
+module.exports = bytesToUuid;
+
+
+/***/ }),
+
+/***/ "./node_modules/uuid/lib/rng-browser.js":
+/***/ (function(module, exports) {
+
+// Unique ID creation requires a high quality random # generator.  In the
+// browser this is a little complicated due to unknown quality of Math.random()
+// and inconsistent support for the `crypto` API.  We do the best we can via
+// feature-detection
+
+// getRandomValues needs to be invoked in a context where "this" is a Crypto
+// implementation. Also, find the complete implementation of crypto on IE11.
+var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto)) ||
+                      (typeof(msCrypto) != 'undefined' && typeof window.msCrypto.getRandomValues == 'function' && msCrypto.getRandomValues.bind(msCrypto));
+
+if (getRandomValues) {
+  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
+  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
+
+  module.exports = function whatwgRNG() {
+    getRandomValues(rnds8);
+    return rnds8;
+  };
+} else {
+  // Math.random()-based (RNG)
+  //
+  // If all else fails, use Math.random().  It's fast, but is of unspecified
+  // quality.
+  var rnds = new Array(16);
+
+  module.exports = function mathRNG() {
+    for (var i = 0, r; i < 16; i++) {
+      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+    }
+
+    return rnds;
+  };
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/uuid/v4.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var rng = __webpack_require__("./node_modules/uuid/lib/rng-browser.js");
+var bytesToUuid = __webpack_require__("./node_modules/uuid/lib/bytesToUuid.js");
+
+function v4(options, buf, offset) {
+  var i = buf && offset || 0;
+
+  if (typeof(options) == 'string') {
+    buf = options === 'binary' ? new Array(16) : null;
+    options = null;
+  }
+  options = options || {};
+
+  var rnds = options.random || (options.rng || rng)();
+
+  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+  rnds[6] = (rnds[6] & 0x0f) | 0x40;
+  rnds[8] = (rnds[8] & 0x3f) | 0x80;
+
+  // Copy bytes to buffer, if provided
+  if (buf) {
+    for (var ii = 0; ii < 16; ++ii) {
+      buf[i + ii] = rnds[ii];
+    }
+  }
+
+  return buf || bytesToUuid(rnds);
+}
+
+module.exports = v4;
+
+
+/***/ }),
+
+/***/ "./src/udemy/js/event-tracking/external.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./src/udemy/js/event-tracking/tracker/helpers.js
+var helpers = __webpack_require__("./src/udemy/js/event-tracking/tracker/helpers.js");
+
+// CONCATENATED MODULE: ./src/udemy/js/event-tracking/tracker/event-common.js
+
+
+/**
+ * This file contains the base classes for the events.
+ * Specific events should be defined in the events.js file.
+ */
+
+
+var event_common_TrackingEvent =
+/*#__PURE__*/
+function () {
+  function TrackingEvent(_type) {
+    babelHelpers.classCallCheck(this, TrackingEvent);
+    this._type = _type;
+    this.createTime = Date.now();
+    this.sendTime = null;
+    this.eventId = Object(helpers["b" /* generateTrackingId */])();
+  }
+
+  babelHelpers.createClass(TrackingEvent, [{
+    key: "setSendTime",
+    value: function setSendTime(time) {
+      this.sendTime = time;
+    }
+  }, {
+    key: "getType",
+    value: function getType() {
+      return this._type;
+    }
+  }]);
+  return TrackingEvent;
+}();
+
+var Dimensions = function Dimensions(_ref) {
+  var width = _ref.width,
+      height = _ref.height;
+  babelHelpers.classCallCheck(this, Dimensions);
+  this.width = width;
+  this.height = height;
+};
+
+var Page = function Page(_ref2) {
+  var trackingId = _ref2.trackingId,
+      key = _ref2.key;
+  babelHelpers.classCallCheck(this, Page);
+  this.trackingId = trackingId;
+  this.key = key;
+};
+
+var ClientHeader = function ClientHeader(_ref3) {
+  var appKey = _ref3.appKey,
+      organizationId = _ref3.organizationId,
+      userId = _ref3.userId,
+      visitorUuid = _ref3.visitorUuid,
+      sessionId = _ref3.sessionId,
+      clientId = _ref3.clientId,
+      page = _ref3.page,
+      isMobile = _ref3.isMobile;
+  babelHelpers.classCallCheck(this, ClientHeader);
+  this.appKey = appKey;
+  this.organizationId = organizationId;
+  this.userId = userId;
+  this.visitorUuid = visitorUuid;
+  this.sessionId = sessionId;
+  this.clientId = clientId;
+  this.page = page;
+  this.isMobile = isMobile;
+};
+/**
+ * Client event will be the base class of all events generated in the front-end.
+ */
+
+
+var ClientEvent =
+/*#__PURE__*/
+function (_TrackingEvent) {
+  babelHelpers.inherits(ClientEvent, _TrackingEvent);
+
+  function ClientEvent() {
+    babelHelpers.classCallCheck(this, ClientEvent);
+    return babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(ClientEvent).apply(this, arguments));
+  }
+
+  babelHelpers.createClass(ClientEvent, [{
+    key: "processContext",
+    value: function processContext(context) {
+      this.clientHeader = new ClientHeader({
+        appKey: context.appKey,
+        organizationId: context.organizationId,
+        userId: context.userId,
+        visitorUuid: context.visitorUuid,
+        sessionId: context.sessionId,
+        clientId: context.clientId,
+        page: new Page({
+          trackingId: context.pageTrackingId,
+          key: context.pageKey
+        }),
+        isMobile: context.isMobile
+      });
+    }
+  }]);
+  return ClientEvent;
+}(event_common_TrackingEvent);
+
+
+// EXTERNAL MODULE: ./node_modules/js-cookie/src/js.cookie.js
+var js_cookie = __webpack_require__("./node_modules/js-cookie/src/js.cookie.js");
+var js_cookie_default = /*#__PURE__*/__webpack_require__.n(js_cookie);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/noop.js
+
+
+/**
+ * This method returns `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @since 2.3.0
+ * @category Util
+ * @example
+ *
+ * _.times(2, _.noop);
+ * // => [undefined, undefined]
+ */
+function noop() {// No operation performed.
+}
+
+/* harmony default export */ var lodash_es_noop = (noop);
+// EXTERNAL MODULE: ./src/udemy/js/utils/server-or-client.js
+var server_or_client = __webpack_require__("./src/udemy/js/utils/server-or-client.js");
+
+// CONCATENATED MODULE: ./src/udemy/js/event-tracking/tracker/constants.js
+
+
+var defaultWebAppKey = 'web_main';
+var defaultCollectorUrl = 'https://www.udemy.com/api-2.0/ecl';
+var visitorUuidCookieKey = '__udmy_2_v57r';
+var minutesToMillis = 60000;
+var sessionIdTimeoutMinutes = 30;
+var sessionCookieKey = 'eventing_session_id';
+var debugCookieKey = 'debug_events';
+var debugQueryParamKey = 'debug_events';
+var debugCookieTimeoutMinutes = 30;
+var udemyRootDomain = '.udemy.com';
+var EVENT_STATUS = Object.freeze({
+  WAITING: 0,
+  FAILURE: -1,
+  SUCCESS: 1
+});
+// EXTERNAL MODULE: ./node_modules/axios/index.js
+var axios = __webpack_require__("./node_modules/axios/index.js");
+var axios_default = /*#__PURE__*/__webpack_require__.n(axios);
+
+// CONCATENATED MODULE: ./src/udemy/js/onetrust/get-user-consent-categories.js
+
+
+
+function getUserConsentCategories(consentCategories) {
+  var activeGroups = consentCategories || server_or_client["a" /* default */].global.OnetrustActiveGroups;
+
+  if (activeGroups) {
+    // Order OneTrust's user consent string ",C0002,C0001,C0003,"
+    return activeGroups.split(',').filter(function (x) {
+      return x;
+    }).sort().join(',');
+  }
+
+  return '';
+}
+// CONCATENATED MODULE: ./src/udemy/js/event-tracking/events.js
+
+
+
+
+/**
+ * Define application-wide events here;
+ * define app- or component-specific events in the app or component directory.
+ *
+ * You need to exactly follow the schema definitions in this repository:
+ * https://github.com/udemy/schema-store
+ * If you need to create a new event, you first need to create it in that repository.
+ * Subclass from ClientEvent base class. Name of the class should match the name of the schema in the
+ * repo. Attributes should have one to one correspondence with the fields in the event schema.
+ * Note that class attributes are snake_case versions of the camelCase schema fields.
+ * This conversion is handled while serializing the event object to json.
+ * For example, for ExampleEvent with schema ExampleEvent.avdl below:
+ *
+ * record ExampleEvent {
+ *   EventClientHeader clientHeader;
+ *   int exampleIntegerField;
+ *   string exampleStringField;
+ *   union { null, array<int> } exampleListField = null;
+ * }
+ *
+ * You would have the following class in this file:
+ *
+ * class ExampleEvent extends ClientEvent {
+ *     constructor({example_integer_field, example_string_field, example_list_field}) {
+ *         super('ExampleEvent');
+ *         this.example_integer_field = example_integer_field
+ *         this.example_string_field = example_string_field
+ *         this.example_list_field = example_list_field
+ *     }
+ * }
+ */
+
+/**
+ * PublicTestEvent can be used for development purposes
+ */
+
+var PublicTestEvent =
+/*#__PURE__*/
+function (_ClientEvent) {
+  babelHelpers.inherits(PublicTestEvent, _ClientEvent);
+
+  function PublicTestEvent(_ref) {
+    var _this;
+
+    var testField1 = _ref.testField1,
+        testField2 = _ref.testField2;
+    babelHelpers.classCallCheck(this, PublicTestEvent);
+    _this = babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(PublicTestEvent).call(this, 'PublicTestEvent'));
+    _this.testField1 = testField1;
+    _this.testField2 = testField2;
+    return _this;
+  }
+
+  return PublicTestEvent;
+}(ClientEvent);
+/**
+ * ClientLoadEvent is fired when the backend rendered page is loaded in the browser.
+ * It gives all fundamental information about the front-end application.
+ */
+
+
+var events_ClientLoadEvent =
+/*#__PURE__*/
+function (_ClientEvent2) {
+  babelHelpers.inherits(ClientLoadEvent, _ClientEvent2);
+
+  function ClientLoadEvent() {
+    babelHelpers.classCallCheck(this, ClientLoadEvent);
+    return babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(ClientLoadEvent).call(this, 'ClientLoadEvent'));
+  }
+
+  babelHelpers.createClass(ClientLoadEvent, [{
+    key: "processContext",
+    value: function processContext(context) {
+      babelHelpers.get(babelHelpers.getPrototypeOf(ClientLoadEvent.prototype), "processContext", this).call(this, context);
+      this.appVersion = context.appVersion;
+      this.appLanguage = context.appLanguage;
+      this.url = context.url;
+      this.referrer = context.referrer;
+      this.timezoneOffset = context.timezoneOffset;
+      this.screen = context.screen;
+      this.viewport = context.viewport;
+      this.userConsentCategories = getUserConsentCategories();
+    }
+  }]);
+  return ClientLoadEvent;
+}(ClientEvent);
+/**
+ * PageViewEvent is fired when a backend rendered page is loaded in the browser or when the react
+ * router changes the route.
+ */
+
+
+var PageViewEvent =
+/*#__PURE__*/
+function (_ClientEvent3) {
+  babelHelpers.inherits(PageViewEvent, _ClientEvent3);
+
+  function PageViewEvent(isRouteChange) {
+    var _this2;
+
+    babelHelpers.classCallCheck(this, PageViewEvent);
+    _this2 = babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(PageViewEvent).call(this, 'PageViewEvent'));
+    _this2.isRouteChange = isRouteChange;
+    return _this2;
+  }
+
+  babelHelpers.createClass(PageViewEvent, [{
+    key: "processContext",
+    value: function processContext(context) {
+      babelHelpers.get(babelHelpers.getPrototypeOf(PageViewEvent.prototype), "processContext", this).call(this, context);
+      this.url = context.url;
+    }
+  }]);
+  return PageViewEvent;
+}(ClientEvent);
+/**
+ * Fired on a browser visibility change event, i.e. when a user
+ * switches tabs/goes to another window/comes back etc.
+ */
+
+
+var PageVisibilityChangeEvent =
+/*#__PURE__*/
+function (_ClientEvent4) {
+  babelHelpers.inherits(PageVisibilityChangeEvent, _ClientEvent4);
+
+  function PageVisibilityChangeEvent(isVisible) {
+    var _this3;
+
+    babelHelpers.classCallCheck(this, PageVisibilityChangeEvent);
+    _this3 = babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(PageVisibilityChangeEvent).call(this, 'PageVisibilityChangeEvent'));
+    _this3.isVisible = isVisible;
+    return _this3;
+  }
+
+  return PageVisibilityChangeEvent;
+}(ClientEvent);
+/**
+This event is fired as a general-purpose click event when a tracked HTML element is clicked.
+
+ !!IMPORTANT!! You should almost always trigger this event on keypress of enter/space to capture
+ actions taken by keyboard users.
+
+ e.g.
+ <div onClick={this.handleAction} onKeyDown={onEnterAndSpace(this.handleAction)}>
+*/
+
+
+var ClickEvent =
+/*#__PURE__*/
+function (_ClientEvent5) {
+  babelHelpers.inherits(ClickEvent, _ClientEvent5);
+
+  function ClickEvent(_ref2) {
+    var _this4;
+
+    var componentName = _ref2.componentName,
+        trackingId = _ref2.trackingId,
+        relatedObjectType = _ref2.relatedObjectType,
+        relatedObjectId = _ref2.relatedObjectId;
+    babelHelpers.classCallCheck(this, ClickEvent);
+    _this4 = babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(ClickEvent).call(this, 'ClickEvent'));
+    _this4.componentName = componentName;
+    _this4.trackingId = trackingId;
+    _this4.relatedObjectType = relatedObjectType;
+    _this4.relatedObjectId = relatedObjectId;
+    return _this4;
+  }
+
+  return ClickEvent;
+}(ClientEvent);
+
+ClickEvent.relatedObjectTypes = {
+  course: 'course',
+  user: 'user',
+  courseLabel: 'course_label',
+  courseCategory: 'course_category',
+  coursesubCategory: 'course_subcategory',
+  lecture: 'lecture'
+};
+
+// CONCATENATED MODULE: ./src/udemy/js/event-tracking/tracker/sender.js
+
+
+
+
+
+
+
+var constants = {
+  clientKeyUrlParam: 'client_key',
+  clientKey: 'js',
+  queueFlushPeriod: 3000,
+  requestTimeout: 20000,
+  retryGap: 3000,
+  maxTimeoutRetry: 3
+};
+var queue = [];
+var send, queueFlusher, collectorUrl, sender_publishHook; // Store the events being currently sent because they may need to be retried by the beacon API
+
+var eventsInFlight;
+var sentUsingBeaconAPI = false;
+function initializeSender(_collectorUrl, _publishHook) {
+  collectorUrl = _withClientKey(_collectorUrl);
+  sender_publishHook = _publishHook;
+  var udTrackApi = axios_default.a.create({
+    timeout: constants.requestTimeout,
+    headers: {
+      'Content-Type': 'text/plain'
+    }
+  });
+  send = Object(helpers["e" /* makeRetryingFunction */])(function (data) {
+    return udTrackApi.post(collectorUrl, data);
+  }, constants.maxTimeoutRetry, constants.retryGap, _shouldRetryRequest);
+  queueFlusher = Object(helpers["f" /* preventOverlappingCall */])(_flush);
+
+  _setupBeacon();
+
+  setInterval(queueFlusher, constants.queueFlushPeriod);
+}
+function queueEvent(event) {
+  queue.push(event);
+}
+
+function _popEventsFromQueue() {
+  var events = [].concat(queue);
+  queue.length = 0;
+
+  _setEventSendTimes(events);
+
+  return events;
+}
+
+function _getEventsFromQueue() {
+  var events = [].concat(queue);
+
+  _setEventSendTimes(events);
+
+  return events;
+}
+
+function _flush() {
+  return _flush2.apply(this, arguments);
+}
+
+function _flush2() {
+  _flush2 = babelHelpers.asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee() {
+    var response;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            eventsInFlight = _popEventsFromQueue();
+
+            if (eventsInFlight.length) {
+              _context.next = 3;
+              break;
+            }
+
+            return _context.abrupt("return");
+
+          case 3:
+            response = null;
+            _context.prev = 4;
+            _context.next = 7;
+            return send(JSON.stringify(eventsInFlight));
+
+          case 7:
+            response = _context.sent;
+            _context.next = 13;
+            break;
+
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context["catch"](4);
+
+            _handleFullError(_context.t0, eventsInFlight);
+
+          case 13:
+            if (response && response.status === 200) {
+              _handleFullSuccess(eventsInFlight);
+            }
+
+            if (response && response.status === 207) {
+              _handlePartialSuccess(eventsInFlight, response);
+            }
+
+            eventsInFlight = null;
+
+          case 16:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[4, 10]]);
+  }));
+  return _flush2.apply(this, arguments);
+}
+
+function _shouldRetryRequest(exception) {
+  // Should retry on network errors(no status) and when we got a 5xx
+  return !exception.request.status || exception.request.status >= 500 && exception.request.status <= 599;
+}
+
+function _handleFullSuccess(events) {
+  events.forEach(function (event) {
+    sender_publishHook(event.eventData, EVENT_STATUS.SUCCESS);
+  });
+}
+/**
+ * This method warns the developer about the specific failed events in a request.
+ * @param events The events sent to the server
+ * @param response The response of the event collector that is used to detect the failed events
+ */
+
+
+function _handlePartialSuccess(events, response) {
+  var failedEventsSet = new Set();
+  response.data.failedEvents.forEach(function (responseElem) {
+    var failedEvent = events[responseElem.idx]; // notify publish status for failures
+
+    sender_publishHook(failedEvent.eventData, EVENT_STATUS.FAILURE, responseElem.reason); // decorate response so error message shows the event
+
+    responseElem.event = failedEvent;
+    failedEventsSet.add(failedEvent);
+  }); // notify publish status for successes
+
+  var successfulEvents = events.filter(function (event) {
+    return !failedEventsSet.has(event);
+  });
+  successfulEvents.forEach(function (event) {
+    sender_publishHook(event.eventData, EVENT_STATUS.SUCCESS);
+  });
+  Object(helpers["d" /* logError */])('Following events have failed to be persisted', response.data.failedEvents);
+}
+
+function _handleFullError(exception, events) {
+  events.forEach(function (event) {
+    sender_publishHook(event.eventData, EVENT_STATUS.FAILURE);
+  });
+  Object(helpers["d" /* logError */])('Event tracking send error', exception);
+}
+
+function _setEventSendTimes(events) {
+  var time = Date.now();
+  events.forEach(function (event) {
+    event.eventData.setSendTime(time);
+  });
+}
+
+var sendUsingBeaconAPI = function sendUsingBeaconAPI() {
+  if (sentUsingBeaconAPI) {
+    return;
+  }
+
+  sentUsingBeaconAPI = true;
+  var events = []; // Send the in flight events again if the page has been unloaded during a send operation.
+  // The reason we do this is because ajax requests are cancelled by the browser when the page
+  // is unloaded, but beacon requests are not. So beacon requests are the only way for not
+  // losing any events. This may mean duplicate events but we can de-duplicate them if needed.
+  // We only fallback to beacon as a last resort because beacon API don't notify back
+  // success/failures
+
+  if (eventsInFlight) {
+    events.push.apply(events, babelHelpers.toConsumableArray(eventsInFlight));
+  } // Put the residual events on the queue that may have been added after send started
+
+
+  events.push.apply(events, babelHelpers.toConsumableArray(_getEventsFromQueue()));
+
+  if (events.length > 0) {
+    navigator.sendBeacon(collectorUrl, JSON.stringify(events));
+  }
+};
+
+function _setupBeacon() {
+  if (!navigator.sendBeacon) {
+    return;
+  }
+
+  window.addEventListener('unload', function () {
+    return sendUsingBeaconAPI();
+  });
+  window.addEventListener('pagehide', function () {
+    return sendUsingBeaconAPI();
+  });
+  window.addEventListener('pageshow', function () {
+    // https://html.spec.whatwg.org/multipage/
+    // browsing-the-web.html#the-pagetransitionevent-interface
+    sentUsingBeaconAPI = false;
+  });
+  document.addEventListener('visibilitychange', function () {
+    tracker._publishEventSync(new PageVisibilityChangeEvent(!document.hidden));
+
+    if (document.hidden) {
+      sendUsingBeaconAPI();
+    } else {
+      sentUsingBeaconAPI = false;
+    }
+  });
+}
+
+function _withClientKey(urlStr) {
+  var _urlStr$split = urlStr.split('?'),
+      _urlStr$split2 = babelHelpers.slicedToArray(_urlStr$split, 2),
+      urlBase = _urlStr$split2[0],
+      urlQueryString = _urlStr$split2[1];
+
+  var urlParams = new URLSearchParams(urlQueryString);
+  urlParams.set(constants.clientKeyUrlParam, constants.clientKey);
+  return "".concat(urlBase, "?").concat(urlParams.toString());
+}
+// CONCATENATED MODULE: ./src/udemy/js/event-tracking/tracker/session.js
+
+
+
+
+
+/**
+ * Keeps the event tracking session information. The event tracking session is a cookie based
+ * session ID that expires with specific amount of inactivity. It stays the same as long as the user
+ * is active. This class also manages the low level (serialization, read from cookie, write to
+ * cookie) operations.
+ */
+
+var session_EventTrackingSession =
+/*#__PURE__*/
+function () {
+  function EventTrackingSession() {
+    var sessionId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Object(helpers["b" /* generateTrackingId */])();
+    var expirationTime = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : EventTrackingSession.produceSessionExpirationDate();
+    babelHelpers.classCallCheck(this, EventTrackingSession);
+    this.sessionId = sessionId;
+    this.expirationDate = expirationTime;
+  }
+
+  babelHelpers.createClass(EventTrackingSession, [{
+    key: "isExpired",
+    value: function isExpired() {
+      return Date.now() > this.expirationDate.getTime();
+    }
+  }, {
+    key: "resetExpiration",
+    value: function resetExpiration() {
+      this.expirationDate = EventTrackingSession.produceSessionExpirationDate();
+    }
+  }, {
+    key: "toString",
+    value: function toString() {
+      return "".concat(this.sessionId, "-").concat(this.expirationDate.getTime());
+    }
+  }], [{
+    key: "produceSessionExpirationDate",
+    value: function produceSessionExpirationDate() {
+      return new Date(Date.now() + sessionIdTimeoutMinutes * minutesToMillis);
+    }
+  }, {
+    key: "readSessionFromCookie",
+    value: function readSessionFromCookie() {
+      try {
+        var sessionCookieValue = js_cookie_default.a.get(sessionCookieKey);
+        var cookieParts = sessionCookieValue.split('-');
+
+        if (cookieParts.length !== 2) {
+          return null;
+        }
+
+        var sessionId = cookieParts[0];
+        var expirationDateEpoch = parseInt(cookieParts[1], 10);
+
+        if (isNaN(expirationDateEpoch)) {
+          return null;
+        }
+
+        var expirationDate = new Date(expirationDateEpoch);
+        return new EventTrackingSession(sessionId, expirationDate);
+      } catch (_unused) {
+        return null;
+      }
+    }
+  }, {
+    key: "writeSessionToCookie",
+    value: function writeSessionToCookie(session) {
+      // Use Udemy root domain when possible to share session ID between sub-domains
+      var cookieDomain = window.location.hostname;
+
+      if (cookieDomain.includes(udemyRootDomain)) {
+        cookieDomain = udemyRootDomain;
+      }
+
+      js_cookie_default.a.set(sessionCookieKey, session.toString(), {
+        expires: session.expirationDate,
+        path: '/',
+        domain: cookieDomain,
+        sameSite: 'strict',
+        secure: !EventTrackingSession.disableSecureCookieForTest
+      });
+    }
+    /**
+     * Gets the event tracking session ID.
+     *
+     * Warning: Do not cache session IDs and call this function whenever needed because this method
+     * signifies activity and keeps the session expiration date refreshed.
+     */
+
+  }, {
+    key: "getEventTrackingSessionId",
+    value: function getEventTrackingSessionId() {
+      var session = EventTrackingSession.readSessionFromCookie();
+
+      if (!session || session.isExpired()) {
+        session = new EventTrackingSession();
+      } else {
+        session.resetExpiration();
+      }
+
+      EventTrackingSession.writeSessionToCookie(session);
+      return session.sessionId;
+    }
+  }]);
+  return EventTrackingSession;
+}(); // eslint-disable-next-line import/prefer-default-export
+
+
+session_EventTrackingSession.disableSecureCookieForTest = false;
+
+// CONCATENATED MODULE: ./src/udemy/js/event-tracking/tracker/tracker.js
+
+
+
+
+
+
+
+
+
+
+var externalContextParameterDefaults = {
+  organizationId: null,
+  userId: null,
+  visitorUuid: js_cookie_default.a.get(visitorUuidCookieKey) || null,
+  pageKey: null,
+  pageTrackingId: Object(helpers["b" /* generateTrackingId */])(),
+  appKey: defaultWebAppKey,
+  appVersion: '',
+  appLanguage: '',
+  collectorUrl: defaultCollectorUrl,
+  isTrackingEnabled: true,
+  printLogs: false,
+  isMobile: false
+};
+
+var tracker_Tracker =
+/*#__PURE__*/
+function () {
+  function Tracker() {
+    babelHelpers.classCallCheck(this, Tracker);
+    this.context = {};
+    this.publishHook = lodash_es_noop;
+    this.initDeferred = Object(helpers["a" /* createDeferred */])();
+    this.ready = false;
+  }
+  /**
+   * This method initializes the tracker context and the sender. After invocation of this method
+   * the sender starts to send the events buffered by the publishEvent method.
+   *
+   * Warning: Do not call publishEvent method before calling this function.
+   *
+   * @param publishHook: Each time tracker sends an event, and each time the response arrives,
+   * publishHook function is called with event and status and failureReason arguments.
+   * @param externalContextParameters: By this object default context parameters of the tracker
+   * context may be changed.
+   */
+
+
+  babelHelpers.createClass(Tracker, [{
+    key: "initialize",
+    value: function initialize() {
+      var externalContextParameters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var publishHook = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : lodash_es_noop;
+      this.publishHook = publishHook;
+
+      this._initializeContext(externalContextParameters);
+
+      initializeSender(this.context.collectorUrl, publishHook);
+      this.initDeferred.resolve();
+      this.ready = true;
+    }
+    /**
+     * The tracker stores some parameters in the object called 'context'. Some of these parameters
+     * are determined internally and cannot be changed externally. Other parameters can be
+     * determined externally when provided by the parameter named 'externalContextParameters'. If a
+     * parameters is not provided, this function sets the default for this parameter.
+     *
+     * See the constant named 'externalParameterNames' for the list of possible external parameters.
+     */
+
+  }, {
+    key: "_initializeContext",
+    value: function _initializeContext(externalContextParameters) {
+      // Internally determined parameters
+      this.context.sessionId = null;
+      this.context.clientId = Object(helpers["b" /* generateTrackingId */])();
+      this.context.url = server_or_client["a" /* default */].global.location.href;
+      this.context.referrer = document.referrer || null;
+      this.context.timezoneOffset = Object(helpers["c" /* getTimezoneOffset */])();
+      this.context.screen = new Dimensions({
+        width: server_or_client["a" /* default */].global.screen.width,
+        height: server_or_client["a" /* default */].global.screen.height
+      });
+      this.context.viewport = new Dimensions({
+        width: server_or_client["a" /* default */].global.innerWidth,
+        height: server_or_client["a" /* default */].global.innerHeight
+      }); // Set the external parameters
+
+      Object.assign(this.context, externalContextParameterDefaults, externalContextParameters); // Activate/deactivate printing to the console
+
+      Object(helpers["g" /* setPrintLogs */])(externalContextParameters.printLogs);
+    }
+    /**
+     * Some parts of the context becomes stale by time. This function refreshes those parts when the
+     * context would be used for a new event.
+     */
+
+  }, {
+    key: "_refreshContext",
+    value: function _refreshContext() {
+      this.context.sessionId = session_EventTrackingSession.getEventTrackingSessionId();
+      this.context.viewport.width = server_or_client["a" /* default */].global.innerWidth;
+      this.context.viewport.height = server_or_client["a" /* default */].global.innerHeight;
+    }
+    /**
+     * This function sets the page related info in the event tracking context.
+     *
+     * @param {null, string} pageKey: Identifier of the page: featured, category, subcategory,
+     * search etc. (https://github.com/udemy/schema-store/blob/master/fields/CommonFields.avdl)
+     *
+     * @param {null, string} pageTrackingId: Tracking UUID for page instance. On web, it's refreshed
+     * with route change. All frontend events fired on the same page, can be related using the 'id'
+     * field inside this record.
+     */
+
+  }, {
+    key: "setPageContext",
+    value: function setPageContext(_ref) {
+      var pageKey = _ref.pageKey,
+          pageTrackingId = _ref.pageTrackingId;
+      this.context.pageKey = pageKey;
+      this.context.pageTrackingId = pageTrackingId;
+      this.context.url = server_or_client["a" /* default */].global.location.href;
+      this.context.pathname = server_or_client["a" /* default */].global.location.pathname;
+    }
+    /**
+     * This method is used by each event source for publishing the event.
+     * @param {object} eventData
+     */
+
+  }, {
+    key: "publishEvent",
+    value: function publishEvent(eventData) {
+      var _this = this;
+
+      this.initDeferred.promise.then(function () {
+        if (!_this.context.isTrackingEnabled) {
+          return;
+        }
+
+        var eventType = eventData._type;
+
+        _this.publishHook(eventData, EVENT_STATUS.WAITING);
+
+        _this._refreshContext();
+
+        eventData.processContext(_this.context);
+        queueEvent({
+          eventType: eventType,
+          eventData: eventData
+        });
+      });
+    }
+    /**
+     * DON'T USE THIS METHOD
+     *
+     * This method is here only for a hacky workaround to overcome an issue on an experimentail change
+     * in all the cases, this method and the workaround will be removed from code
+     */
+
+  }, {
+    key: "_publishEventSync",
+    value: function _publishEventSync(eventData) {
+      if (!this.context.isTrackingEnabled) {
+        return;
+      }
+
+      var eventType = eventData._type;
+      eventData.processContext(this.context);
+      queueEvent({
+        eventType: eventType,
+        eventData: eventData
+      });
+    }
+  }]);
+  return Tracker;
+}();
+
+/* harmony default export */ var tracker = (new tracker_Tracker());
+// CONCATENATED MODULE: ./src/udemy/js/event-tracking/external.js
+
+
+
+
+
+var ExternalPage = function ExternalPage(_ref) {
+  var trackingId = _ref.trackingId;
+  babelHelpers.classCallCheck(this, ExternalPage);
+  this.trackingId = trackingId;
+};
+
+var ExternalClientHeader = function ExternalClientHeader(_ref2) {
+  var appKey = _ref2.appKey,
+      visitorUuid = _ref2.visitorUuid,
+      sessionId = _ref2.sessionId,
+      page = _ref2.page;
+  babelHelpers.classCallCheck(this, ExternalClientHeader);
+  this.appKey = appKey;
+  this.visitorUuid = visitorUuid;
+  this.sessionId = sessionId;
+  this.page = page;
+};
+/**
+ * External client event will be the base class of all events generated in the front-end
+ * of the external web sites such as business.udemy.com.
+ */
+
+
+var ExternalClientEvent =
+/*#__PURE__*/
+function (_TrackingEvent) {
+  babelHelpers.inherits(ExternalClientEvent, _TrackingEvent);
+
+  function ExternalClientEvent() {
+    babelHelpers.classCallCheck(this, ExternalClientEvent);
+    return babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(ExternalClientEvent).apply(this, arguments));
+  }
+
+  babelHelpers.createClass(ExternalClientEvent, [{
+    key: "processContext",
+    value: function processContext(context) {
+      this.clientHeader = new ExternalClientHeader({
+        appKey: context.appKey,
+        visitorUuid: context.visitorUuid,
+        sessionId: context.sessionId,
+        page: new ExternalPage({
+          trackingId: context.pageTrackingId
+        })
+      });
+    }
+  }]);
+  return ExternalClientEvent;
+}(event_common_TrackingEvent);
+/**
+ * ExternalPageViewEvent is fired when a page of an external web site such as about.udemy.com is
+ * viewed.
+ */
+
+
+var ExternalPageViewEvent =
+/*#__PURE__*/
+function (_ExternalClientEvent) {
+  babelHelpers.inherits(ExternalPageViewEvent, _ExternalClientEvent);
+
+  function ExternalPageViewEvent() {
+    babelHelpers.classCallCheck(this, ExternalPageViewEvent);
+    return babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(ExternalPageViewEvent).call(this, 'ExternalPageViewEvent'));
+  }
+
+  babelHelpers.createClass(ExternalPageViewEvent, [{
+    key: "processContext",
+    value: function processContext(context) {
+      babelHelpers.get(babelHelpers.getPrototypeOf(ExternalPageViewEvent.prototype), "processContext", this).call(this, context);
+      this.interfaceLanguage = context.appLanguage;
+      this.url = context.url;
+      this.referrer = context.referrer;
+      this.timezoneOffset = context.timezoneOffset;
+    }
+  }]);
+  return ExternalPageViewEvent;
+}(ExternalClientEvent);
+/**
+ * ExternalLeadFormSubmitEvent is fired when a lead form on an external web site is submitted.
+ */
+
+
+var ExternalLeadFormSubmitEvent =
+/*#__PURE__*/
+function (_ExternalClientEvent2) {
+  babelHelpers.inherits(ExternalLeadFormSubmitEvent, _ExternalClientEvent2);
+
+  function ExternalLeadFormSubmitEvent(_ref3) {
+    var _this;
+
+    var formId = _ref3.formId,
+        _ref3$isSuccessful = _ref3.isSuccessful,
+        isSuccessful = _ref3$isSuccessful === void 0 ? true : _ref3$isSuccessful,
+        _ref3$failureReason = _ref3.failureReason,
+        failureReason = _ref3$failureReason === void 0 ? null : _ref3$failureReason;
+    babelHelpers.classCallCheck(this, ExternalLeadFormSubmitEvent);
+    _this = babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(ExternalLeadFormSubmitEvent).call(this, 'ExternalLeadFormSubmitEvent'));
+    _this.formId = formId;
+    _this.isSuccessful = isSuccessful;
+    _this.failureReason = failureReason;
+    return _this;
+  }
+
+  return ExternalLeadFormSubmitEvent;
+}(ExternalClientEvent);
+/**
+ * ExternalVideoControlEvent is fired when the user interacted with the videos on external sites.
+ */
+
+
+var ExternalVideoControlEvent =
+/*#__PURE__*/
+function (_ExternalClientEvent3) {
+  babelHelpers.inherits(ExternalVideoControlEvent, _ExternalClientEvent3);
+
+  function ExternalVideoControlEvent(_ref4) {
+    var _this2;
+
+    var action = _ref4.action,
+        videoUri = _ref4.videoUri;
+    babelHelpers.classCallCheck(this, ExternalVideoControlEvent);
+    _this2 = babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(ExternalVideoControlEvent).call(this, 'ExternalVideoControlEvent'));
+    _this2.action = action;
+    _this2.videoUri = videoUri;
+    return _this2;
+  }
+
+  return ExternalVideoControlEvent;
+}(ExternalClientEvent);
+/**
+ * ExternalClickEvent is fired as a general purpose click event when a tracked HTML element with a
+ * trackingLabel is clicked.
+ */
+
+
+var ExternalClickEvent =
+/*#__PURE__*/
+function (_ExternalClientEvent4) {
+  babelHelpers.inherits(ExternalClickEvent, _ExternalClientEvent4);
+
+  function ExternalClickEvent(_ref5) {
+    var _this3;
+
+    var trackingLabel = _ref5.trackingLabel;
+    babelHelpers.classCallCheck(this, ExternalClickEvent);
+    _this3 = babelHelpers.possibleConstructorReturn(this, babelHelpers.getPrototypeOf(ExternalClickEvent).call(this, 'ExternalClickEvent'));
+    _this3.trackingLabel = trackingLabel;
+    return _this3;
+  }
+
+  return ExternalClickEvent;
+}(ExternalClientEvent);
+/**
+ * This file is used for the bundled generic JavaScript event tracker that is used for the
+ * external web sites such as business.udemy.com
+ */
+
+
+window.eventing = {
+  tracker: tracker,
+  // Add external events
+  events: {
+    ExternalPageViewEvent: ExternalPageViewEvent,
+    ExternalLeadFormSubmitEvent: ExternalLeadFormSubmitEvent,
+    ExternalVideoControlEvent: ExternalVideoControlEvent,
+    ExternalClickEvent: ExternalClickEvent
+  }
+};
+
+/***/ }),
+
+/***/ "./src/udemy/js/event-tracking/tracker/helpers.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getTimezoneOffset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return makeRetryingFunction; });
+/* unused harmony export delay */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return preventOverlappingCall; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return setPrintLogs; });
+/* unused harmony export log */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return logError; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return generateTrackingId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createDeferred; });
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./node_modules/uuid/v4.js");
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_0__);
+
+
+
+/**
+ * Gets the offset of the timezone. For example -4 for GMT-4
+ */
+
+function getTimezoneOffset() {
+  return new Date().getTimezoneOffset() / 60 * -1;
+}
+/**
+ * Decorates the function with a retry behavior.
+ * The decorated function is retried if it throws an exception.
+ * If shouldRetry function is not provided or if it returns false the retry can be cancelled.
+ * @param {function} func: Function to be decorated
+ * @param {int} retryCount
+ * @param {int} retryGap
+ * @param {function} shouldRetry: An optional function that decides to retry or not based on the
+ * exception
+ * @returns The exception if there is one
+ */
+
+function makeRetryingFunction(func, retryCount) {
+  var retryGap = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  var shouldRetry = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {
+    return true;
+  };
+  return (
+    /*#__PURE__*/
+    babelHelpers.asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee() {
+      var i,
+          lastAttempt,
+          stopRetry,
+          _args = arguments;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              i = 0;
+
+            case 1:
+              if (!(i < retryCount)) {
+                _context.next = 21;
+                break;
+              }
+
+              _context.prev = 2;
+              _context.next = 5;
+              return func.apply(void 0, _args);
+
+            case 5:
+              return _context.abrupt("return", _context.sent);
+
+            case 8:
+              _context.prev = 8;
+              _context.t0 = _context["catch"](2);
+              lastAttempt = i + 1 === retryCount;
+              stopRetry = !shouldRetry(_context.t0);
+
+              if (!(lastAttempt || stopRetry)) {
+                _context.next = 14;
+                break;
+              }
+
+              throw _context.t0;
+
+            case 14:
+              _context.t1 = retryGap;
+
+              if (!_context.t1) {
+                _context.next = 18;
+                break;
+              }
+
+              _context.next = 18;
+              return delay(retryGap);
+
+            case 18:
+              i++;
+              _context.next = 1;
+              break;
+
+            case 21:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[2, 8]]);
+    }))
+  );
+}
+function delay(time) {
+  return new Promise(function (resolve) {
+    return setTimeout(resolve, time);
+  });
+}
+/**
+ * This is a decorator that wraps an async function with a mechanism that prevents another
+ * invocation while there is an unfinished one.
+ */
+
+function preventOverlappingCall(func) {
+  var awaiting = false;
+  return (
+    /*#__PURE__*/
+    babelHelpers.asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee2() {
+      var result,
+          _args2 = arguments;
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (!awaiting) {
+                _context2.next = 2;
+                break;
+              }
+
+              return _context2.abrupt("return");
+
+            case 2:
+              awaiting = true;
+              _context2.next = 5;
+              return func.apply(void 0, _args2);
+
+            case 5:
+              result = _context2.sent;
+              awaiting = false;
+              return _context2.abrupt("return", result);
+
+            case 8:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))
+  );
+}
+var printLogs = true;
+/**
+ * This functions turns on the log printing on or off.
+ */
+
+function setPrintLogs(_printLogs) {
+  printLogs = _printLogs;
+}
+function log() {
+  if (printLogs) {
+    var _console;
+
+    // eslint-disable-next-line no-console
+    (_console = console).log.apply(_console, arguments);
+  }
+}
+function logError() {
+  if (printLogs) {
+    var _console2;
+
+    // eslint-disable-next-line no-console
+    (_console2 = console).error.apply(_console2, arguments);
+  }
+}
+/**
+ * Use this to generate slug uuids for your objects
+ * to be used for tracking
+ */
+
+function generateTrackingId() {
+  var bytes = uuid_v4__WEBPACK_IMPORTED_MODULE_0___default()('binary');
+  return uuidToSlug(bytes);
+}
+/**
+ * Generates short and url safe version of a UUID
+ */
+
+function uuidToSlug(uuidBytes) {
+  var base64 = typeof window === 'undefined' ? global.Buffer.from(uuidBytes).toString('base64') : btoa(String.fromCharCode.apply(String, babelHelpers.toConsumableArray(uuidBytes)));
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').substring(0, 22); // Drop '==' padding
+}
+
+function createDeferred() {
+  var deferred = {};
+  deferred.promise = new Promise(function (resolve, reject) {
+    deferred.resolve = resolve;
+    deferred.reject = reject;
+  });
+  return deferred;
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./src/udemy/js/utils/server-or-client.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+
+var isServer = typeof window === 'undefined';
+var serverOrClient = {
+  isServer: isServer,
+  isClient: !isServer,
+  global: isServer ? global : window
+};
+/* harmony default export */ __webpack_exports__["a"] = (serverOrClient);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("./node_modules/webpack/buildin/global.js")))
+
+/***/ })
+
+}]);

@@ -1,0 +1,18 @@
+const showModal = function(productModalVimeoId, modalId) {
+  const productModalIframe = document.getElementById('product-modal-iframe');
+
+  if (!productModalVimeoId) {
+    console.log('Invalid Vimeo Id, please provide a valid data-video-id value.');
+    return;
+  }
+  const productModalVimeoSrc = 'https://player.vimeo.com/video/' + productModalVimeoId + '?autoplay=1&title=0&byline=0';
+  productModalIframe.setAttribute( 'src', productModalVimeoSrc );
+
+  MicroModal.show(modalId);
+}
+
+const closeModal = function(modalId) {
+  const productModalIframe = document.getElementById('product-modal-iframe');
+  productModalIframe.setAttribute( 'src', '' );
+  MicroModal.close(modalId);
+}
