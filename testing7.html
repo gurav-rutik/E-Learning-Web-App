@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    
+/* Navigation Bar Styling */
+.navbar {
+    /* position: fixed;
+      top: 0;
+      left: 0;
+      width: 97%;
+      height: 60px; */
+  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333333ab;
+    padding: 0 20px;
+    margin-top: 0px;
+    position: relative;
+    top: 0;
+    z-index: 1000;
+    /* color: white; */
+    height: 70px;
+    width: 100%;
+    margin-left: 20px;
+    /* margin-right: 400px; */
+    margin: 0;
+    margin-right: 50px;
+    box-sizing: border-box;
+  }
+  
+  .nav-left {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    gap: 10px;
+  }
+  
+  /* New Section for Logo Alignment */
+  .nav-right {
+    display: flex;
+    /* margin-left: 600px; */
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  .nav-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    gap: 10px;
+    margin-left: 100px;
+  }
+  
+  .logo {
+    width: 160px;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+  
+  /* Dropdown Menu Styling */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  .dropbtn {
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin-top: -1px;
+    background: none;
+    font-weight: bold;
+  }
+  
+  .dropbtn:hover {
+    color: blue;
+    background: none;
+  }
+  
+  .dropdown-content {
+    top: 100%;
+    left: 0;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 260px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.8);
+    z-index: 1;
+    text-align: left;
+    height: auto;
+    border: 1px solid grey;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+    margin: 0;
+  }
+  
+  .dropdown-content a:hover::after {
+    content: " >"; /* Adds the '>' symbol */
+    position: absolute;
+    left: 250px; /* Adjusts position to align on the right */
+    font-weight: bold;
+    color: blue; /* Set color of the symbol */
+  }
+  
+  .popup-content a:hover::after {
+    content: " >"; /* Adds the '>' symbol */
+    position: absolute;
+    left: 210px; /* Adjusts position to align on the right */
+    font-weight: bold;
+    color: blue; /* Set color of the symbol */
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #f1f1f1;
+    color: blue;
+    padding-left: 20px;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .nav-link {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 16px;
+    justify-content: space-around;
+    font-weight: bold;
+  }
+  
+  .nav-link:hover {
+    color: blue;
+  }
+  
+  .profile-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 20px;
+  }
+  
+  .profile-dropdown {
+    position: relative; /* Make the parent relative for absolute positioning of the popup */
+    display: inline-block; /* Aligns the icon and popup together */
+  }
+  
+  .profile-popup {
+    display: none; /* Initially hide the popup */
+    position: absolute;
+    top: 60px; /* Adjust this to position the popup below the icon */
+    right: 0; /* Align to the right */
+    background-color: white;
+    min-width: 200px; /* Minimum width of the popup */
+    padding: 10px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.8);
+    z-index: 2; /* Ensure it appears above other elements */
+    border: 1px solid gray;
+  }
+  
+  .profile-dropdown:hover .profile-popup {
+    display: block; /* Show the popup on hover */
+  }
+  
+  .popup-profile-icon {
+    width: 50px; /* Set size for the profile photo in the popup */
+    height: 50px;
+    border-radius: 50%; /* Make it circular */
+    margin-bottom: 10px; /* Space below the image */
+  }
+  
+  .profile-info {
+    text-align: center; /* Center-align text */
+  }
+  
+  .profile-name {
+    font-weight: bold; /* Make name bold */
+    margin: 0; /* Remove default margin */
+  }
+  
+  .profile-email {
+    margin: 0; /* Remove default margin */
+    color: #555; /* Change color to distinguish from name */
+  }
+  
+  /* /////////////////////////////////////////////////// */
+  .popup-content {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 260px; /* Positions the popup to the left side */
+    background-color: white;
+    min-width: 200px;
+    padding: 10px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border: 1px solid gray;
+    z-index: 1000;
+  }
+  
+  .dropdown:hover .popup-content {
+    display: none;
+  }
+  
+  .dropdown-content .dropdown:hover .popup-content {
+    display: block; /* Shows the popup on hover over Development */
+  }
+  
+  .popup-content a {
+    display: block;
+    padding: 8px;
+    color: black;
+    text-decoration: none;
+  }
+  
+  .popup-content a:hover {
+    background-color: #ddd;
+  }
+  
+  .popup-subcontent {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: -200px; /* Positions the popup to the left side of Web Development */
+    background-color: white;
+    min-width: 200px;
+    padding: 10px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .popup-content .dropdown:hover .popup-subcontent {
+    display: block; /* Shows the sub-popup on hover over Web Development */
+  }
+  
+  .popup-subcontent a {
+    display: block;
+    padding: 8px;
+    color: black;
+    text-decoration: none;
+  }
+  
+  .popup-subcontent a:hover {
+    background-color: #ddd;
+  }
+  
+  /* /////////////////////////////////////////////////// */
+  /* Styling the Search Bar */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    margin-left: 55px;
+  }
+  
+  .search-input {
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+    width: 180px;
+    color: white;
+    margin-top: 15px;
+  }
+  
+  .search-button {
+    padding: 6px;
+    font-size: 14px;
+    background-color: #333333ab;
+    color: white;
+    border: 1px solid #333333ab;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  .search-button:hover {
+    background-color: #444;
+  }
+  .search-input::placeholder {
+    color: #333333ab;
+    opacity: 1; /* Ensure the placeholder is fully opaque */
+  }
+  
+  .suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 150px;
+    overflow-y: auto;
+    border-radius: 0 0 4px 4px;
+    display: none;
+    z-index: 1000;
+    width: 200px;
+    margin-left: 590px;
+  }
+  
+  .suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .suggestion-item:hover {
+    background-color: #f0f0f0;
+  }
+</style>
+
+<body>
+
+<header>
+    <nav class="navbar">
+      <div class="nav-left">
+        <img src="./images/e-learning.png" alt="Logo" class="logo" />
+
+        <!-- Course Categories Dropdown -->
+        <div class="dropdown">
+          <button class="dropbtn">Categories</button>
+          <div class="dropdown-content">
+            <div class="dropdown">
+              <a href="#">Development</a>
+              <!-- Popup for Development Courses -->
+              <div class="popup-content">
+                <a href="#">Web Development</a>
+                <a href="#">Data Science</a>
+                <a href="#">Mobile App Development</a>
+                <a href="#">Programming Languages</a>
+                <a href="#">Game Development</a>
+                <a href="#">Database Design & Development</a>
+                <a href="#">Software Testing</a>
+                <a href="#">Software Engineering</a>
+                <a href="#">Software Development Tools</a>
+                <a href="#">No-code Development</a>
+              </div>
+            </div>
+            <div class="dropdown">
+              <a href="#">IT & Software</a>
+              <div class="popup-content">
+                <a href="#">AWS Certified Cloud Practitioner</a>
+                <a href="#">Ethical Hacking</a>
+                <a href="#">Cybersecurity</a>
+                <a href="#">Microcontroller</a>
+                <a href="#">Linux</a>
+                <a href="#">ChatGPT</a>
+                <a href="#">DevOps</a>
+                <a href="#">Java</a>
+                <a href="#">Python</a>
+                <a href="#">Kubernetes</a>
+              </div>
+            </div>
+            <div class="dropdown">
+              <a href="#">Business</a>
+              <div class="popup-content">
+                <a href="#">Enterpreneurship</a>
+                <a href="#">Communication</a>
+                <a href="#">Management</a>
+                <a href="#">Sales</a>
+                <a href="#">Business Strategy</a>
+                <a href="#">Project Management</a>
+                <a href="#">Business Law</a>
+                <a href="#">Business Analytics& Intelligence</a>
+                <a href="#">Human Resources</a>
+                <a href="#">E-Commerce</a>
+              </div>
+            </div>
+            <div class="dropdown">
+              <a href="#">Finance & Accounting</a>
+              <div class="popup-content">
+                <a href="#">Accounting & Bookkeeping</a>
+                <a href="#">Compliance</a>
+                <a href="#">Cryptocurrency & Blockchain</a>
+                <a href="#">Economics</a>
+                <a href="#">Finance</a>
+                <a href="#">Finance Cert & Exam Prep</a>
+                <a href="#">Financial Modeling & analysis</a>
+                <a href="#">Investing & Trading</a>
+                <a href="#">Money Management Tools</a>
+              </div>
+            </div>
+            <div class="dropdown">
+              <a href="#">Office Productivity</a>
+              <div class="popup-content">
+                <a href="#">Microsoft Excel</a>
+                <a href="#">MAC Basics</a>
+                <a href="#">Google Drive</a>
+                <a href="#">SAP Material Management</a>
+                <a href="#">Oracle Database</a>
+                <a href="#">PL/SQL</a>
+                <a href="#">Project Management</a>
+                <a href="#">Typing</a>
+                <a href="#">Google Sheet</a>
+              </div>
+            </div>
+            <div class="dropdown">
+              <a href="#">Personal Development</a>
+              <div class="popup-content">
+                <a href="#">Life Coach Training</a>
+                <a href="#">Personal Development</a>
+                <a href="#">Time Management</a>
+                <a href="#">Management Skills</a>
+                <a href="#">Interview Skills</a>
+                <a href="#">Communication Skills</a>
+                <a href="#">Creative Writing</a>
+                <a href="#">Neuroplasticity</a>
+
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <a href="#">Design</a>
+              <div class="popup-content">
+                <a href="#">Web Design</a>
+                <a href="#">Graphics Design & illustration</a>
+                <a href="#">Design Tools</a>
+                <a href="#">User Experience Design</a>
+                <a href="#">Game Design</a>
+                <a href="#">3D Animation</a>
+
+
+              </div>
+            </div>
+
+            <div></div>
+
+
+            <div class="dropdown">
+              <a href="#">Lifestyle</a>
+              <div class="popup-content">
+                <a href="#">Arts & Crafts</a>
+                <a href="#">Beauty & Makeup</a>
+                <a href="#">Esoteric Practices</a>
+                <a href="#">Food & Beverage</a>
+                <a href="#">Gaming</a>
+
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <a href="#">Photography & Video</a>
+              <div class="popup-content">
+                <a href="#">Digital Photography</a>
+                <a href="#">Photography</a>
+                <a href="#">Portrait Photography</a>
+                <a href="#">Photography Tools</a>
+                <a href="#">Video Design</a>
+
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <a href="#">Health & Fitness</a>
+              <div class="popup-content">
+                <a href="#">Fitness</a>
+                <a href="#">Sports</a>
+                <a href="#">Yoga</a>
+                <a href="#">Mental Health</a>
+                <a href="#">Safety & First Aid</a>
+
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <a href="#">Music</a>
+              <div class="popup-content">
+                <a href="#">Instruments</a>
+                <a href="#">Music Production</a>
+                <a href="#">Music Fundametals</a>
+                <a href="#">Vocal</a>
+                <a href="#">Music Techniques</a>
+
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <a href="#">Teaching & Academics</a>
+              <div class="popup-content">
+                <a href="#">Engineering</a>
+                <a href="#">Humanities</a>
+                <a href="#">Language Learing</a>
+                <a href="#">Maths & Science</a>
+
+              </div>
+            </div>
+            <div class="dropdown">
+              <a href="#">Marketing</a>
+              <div class="popup-content">
+                <a href="#">Digital Marketing</a>
+                <a href="#">Social Marketing</a>
+                <a href="#">Product Marketing</a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <a id="career" href="career-support.html" class="nav-link">Career Support</a>
+      <div class="nav-right">
+        <div class="more-menu">
+          <!--  <button id="more1" class="more-button" onclick="toggleMoreMenu()">More</button> -->
+          <a id="career" href="payment-history.html" class="nav-link">Payment History</a>
+          <!-- <div class="more-content"> -->
+          <!-- <a href="./about-us.html">About Us</a> -->
+          <!-- <a href="#faq">FAQ</a> -->
+          <!-- <a href="./career-support.html">Career Support</a> -->
+          <!-- <a href="#blog">Blog</a> -->
+          <!-- </div> -->
+        </div>
+      </div>
+
+
+
+      <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Search for courses..."
+          oninput="showSuggestions(this.value)">
+        <button type="button" class="search-button" onclick="goToCourse()">🔍</button>
+        <div class="suggestions" id="suggestions"></div>
+      </div>
+
+
+      <div class="nav-center">
+        <a href="index.html" class="nav-link">Home</a>
+        <a id="course" href="#courses-section" class="nav-link">Courses</a>
+        <a href="about-us.html" class="nav-link">About Us</a>
+        <a href="#contact-menu" class="nav-link">Contact</a>
+      </div>
+
+
+      <div class="nav-right">
+        <div class="profile-dropdown">
+          <img src="./images/profile-logo.jpg" alt="Profile" class="profile-icon" />
+          <div class="profile-popup">
+            <img src="./images/profile-logo.jpg" alt="Profile" class="popup-profile-icon" />
+            <div class="profile-info">
+              <p class="profile-name">Rutik Gurav</p>
+              <p class="profile-email">rutikgurav15@gmail.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+  </header>
+
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment History</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Basic styling for the body */
+        body {
+            width: 100%;
+            height: inherit;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; /* Light background color */
+            font-family: Arial, sans-serif; /* Change font */
+        }
+
+        /* Header styling */
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: white;
+            background-color: rgb(221, 184, 115);
+            text-transform: uppercase;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 30px;
+            text-shadow: 2px 2px 4px blue;
+            text-align: center;
+        }
+
+        /* Basic styling for the history container */
+        .history-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid with boxes */
+            gap: 20px; /* Space between boxes */
+            margin-top: 10px; /* Margin above the history section */
+        }
+
+        /* Styling for each payment box */
+        .payment-box {
+            background-color: white; /* Box background color */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            padding: 15px; /* Padding inside the box */
+            text-align: center; /* Center text */
+            transition: transform 0.3s; /* Animation for hover effect */
+        }
+
+        /* Add hover effect to boxes */
+        .payment-box:hover {
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        /* Styling for box titles */
+        .payment-box h3 {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        /* Styling for box details */
+        .payment-details {
+            margin: 5px 0; /* Margin for the details */
+            font-size: 14px; /* Font size for details */
+            color: #666; /* Color for details */
+        }
+
+        /* Button styling */
+        .button-container {
+            margin-top: 20px; /* Space above buttons */
+        }
+
+        button {
+            padding: 10px 15px; /* Button padding */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #007BFF; /* Primary color */
+            color: white; /* Text color */
+            cursor: pointer; /* Pointer cursor */
+            margin-right: 10px; /* Space between buttons */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Payment History</h2>
+
+        <div id="historyContainer" class="history-container"></div>
+
+        <div class="button-container">
+            <button id="deleteHistoryBtn">Delete History</button>
+            <button id="backBtn">Back</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to display enrolled courses from local storage
+        function displayPaymentHistory() {
+            const historyContainer = document.getElementById('historyContainer');
+            const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses')) || [];
+
+            // Clear previous content
+            historyContainer.innerHTML = '';
+
+            // Check if there are any courses enrolled
+            if (enrolledCourses.length === 0) {
+                historyContainer.innerHTML = '<p>No courses enrolled.</p>'; // Show message if no courses
+                return;
+            }
+
+            // Create a box for each enrolled course
+            enrolledCourses.forEach(course => {
+                const paymentBox = document.createElement('div');
+                paymentBox.className = 'payment-box';
+
+                paymentBox.innerHTML = `
+                    <h3>${course.name}</h3>
+                    <div class="payment-details"><strong>Amount:</strong> ${course.amount}</div>
+                    <div class="payment-details"><strong>Payment Method:</strong> ${course.method}</div>
+                    <div class="payment-details"><strong>Card Number:</strong> ${course.cardNumber}</div>
+                    <div class="payment-details"><strong>Expiry Date:</strong> ${course.expiryDate}</div>
+                    <div class="payment-details"><strong>CVV:</strong> ${course.cvv}</div>
+                    <div class="payment-details"><strong>Status:</strong> ${course.status}</div>
+                `;
+
+                // Append the course box to the history container
+                historyContainer.appendChild(paymentBox);
+            });
+        }
+
+        // Function to delete payment history
+        function deletePaymentHistory() {
+            localStorage.removeItem('enrolledCourses'); // Clear the payment history
+            alert('History deleted.'); // Show confirmation message
+            displayPaymentHistory(); // Refresh the displayed history
+        }
+
+        // Function to go back to the payment success page
+        function goBack() {
+            window.location.href = 'payment-success.html'; // Redirect to the payment success page
+        }
+
+        // Display the payment history when the page loads
+        displayPaymentHistory();
+
+        // Add event listener for the delete history button
+        document.getElementById('deleteHistoryBtn').addEventListener('click', deletePaymentHistory);
+
+        // Add event listener for the back button
+        document.getElementById('backBtn').addEventListener('click', goBack);
+    </script>
+</body>
+</html>

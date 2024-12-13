@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Additional styling for buttons */
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .nav-button {
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green background */
+            color: white; /* White text */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            font-size: 16px; /* Font size */
+        }
+
+        .nav-button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        .payment-history {
+            margin-top: 20px; /* Additional margin for spacing */
+            text-align: center; /* Center the text */
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container1">
+        <h2>Payment Successfully Completed</h2>
+        <p>Thank you for enrolling in our course!</p>
+
+        <!-- Button Container -->
+        <div class="button-container">
+            <button class="nav-button" onclick="window.location.href='index.html'">Logout</button>
+            <button class="nav-button" onclick="window.location.href='courses.html'">Courses</button>
+            <button class="nav-button" onclick="window.location.href='payment-history.html'">Payment History</button>
+        </div>
+    </div>
+
+    <!-- Placeholder for Payment History -->
+    <div class="payment-history" id="payment-history" style="display: none;">
+        <h3>Your Enrolled Courses</h3>
+        <!-- Example boxes for course information -->
+        <div class="course-box">
+            <h4>Course Name: Introduction to Programming</h4>
+            <p>Payment Status: Completed</p>
+        </div>
+        <div class="course-box">
+            <h4>Course Name: Web Development Basics</h4>
+            <p>Payment Status: Completed</p>
+        </div>
+        <!-- Add more course boxes as needed -->
+    </div>
+</body>
+</html>

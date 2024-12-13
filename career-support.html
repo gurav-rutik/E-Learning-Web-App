@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Career Support</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+    }
+    
+    header {
+        background-color: #333;
+        color: white;
+    }
+    
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+    }
+    
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        padding: 10px;
+    }
+    
+    .nav-link:hover {
+        background:none;
+        color: blue;
+    }
+    
+    .main {
+        padding: 20px;
+    }
+    
+    .career-support {
+        padding: 20px;
+    }
+    
+    .career-support h1 {
+        color: #333;
+    }
+    
+    .career-support h2 {
+        color: #0056b3;
+    }
+    
+    .career-support ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    .career-support ul li {
+        margin: 5px 0;
+    }
+    
+    footer {
+        text-align: center;
+        padding: 10px;
+        background-color: #333;
+        color: white;
+    }
+    
+.logo {
+    width: 160px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.navbar {
+    /* position: fixed;
+    top: 0;
+    left: 0;
+    width: 97%;
+    height: 60px; */
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333333ab;
+    padding: 0 20px;
+    margin-top: 0px;
+    position: relative;
+    top: 0;
+    z-index: 1000;
+    /* color: white; */
+    height: 70px;
+    width: 100%;
+    margin-left: 20px;
+    /* margin-right: 400px; */
+    margin: 0;
+    margin-right: 50px;
+    box-sizing: border-box;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    margin-right: 100px;
+    gap: 10px;
+}
+
+/* New Section for Logo Alignment */
+.nav-right {
+    display: flex;
+    /* margin-left: 600px; */
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.nav-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    gap: 10px;
+    margin-left: 100px;
+}
+
+.logo {
+    width: 160px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.profile-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.profile-dropdown {
+    position: relative; /* Make the parent relative for absolute positioning of the popup */
+    display: inline-block; /* Aligns the icon and popup together */
+}
+
+.profile-popup {
+    display: none; /* Initially hide the popup */
+    position: absolute;
+    top: 60px; /* Adjust this to position the popup below the icon */
+    right: 0; /* Align to the right */
+    background-color: white;
+    min-width: 200px; /* Minimum width of the popup */
+    padding: 10px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.8);
+    z-index: 2; /* Ensure it appears above other elements */
+    border: 1px solid gray;
+}
+
+.profile-dropdown:hover .profile-popup {
+    display: block; /* Show the popup on hover */
+}
+
+.popup-profile-icon {
+    width: 50px; /* Set size for the profile photo in the popup */
+    height: 50px;
+    border-radius: 50%; /* Make it circular */
+    margin-bottom: 10px; /* Space below the image */
+    margin-left: 70px;
+}
+
+.profile-info {
+    text-align: center; /* Center-align text */
+}
+
+.profile-name {
+    font-weight: bold; /* Make name bold */
+    margin: 0; /* Remove default margin */
+    color: #555;
+}
+
+.profile-email {
+    margin: 0; /* Remove default margin */
+    color: #555; /* Change color to distinguish from name */
+}
+
+    
+</style>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-left">
+                <img src="./images/e-learning.png" alt="Logo" class="logo" />
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="courses.html#course" class="nav-link">Courses</a>
+                <a href="about-us.html" class="nav-link">About Us</a>
+                <a href="courses.html#contact-menu" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-right">
+                <div class="profile-dropdown">
+                    <img src="./images/profile-logo.jpg" alt="Profile" class="profile-icon" />
+                    <div class="profile-popup">
+                        <img src="./images/profile-logo.jpg" alt="Profile" class="popup-profile-icon" />
+                        <div class="profile-info">
+                            <p class="profile-name">Rutik Gurav</p>
+                            <p class="profile-email">rutikgurav15@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="career-support">
+            <h1>Career Support</h1>
+            <p>Welcome to our Career Support section! Here you will find resources and tips to help you in your job search and career development.</p>
+
+            <h2>Career Guidance</h2>
+            <ul>
+                <li>Resume Writing Tips</li>
+                <li>Interview Preparation</li>
+                <li>Networking Strategies</li>
+                <li>Job Market Insights</li>
+            </ul>
+
+            <h2>Job Resources</h2>
+            <p>Explore various job boards and websites to find opportunities:</p>
+            <ul>
+                <li><a href="https://www.indeed.com" target="_blank">Indeed</a></li>
+                <li><a href="https://www.linkedin.com/jobs" target="_blank">LinkedIn Jobs</a></li>
+                <li><a href="https://www.monster.com" target="_blank">Monster</a></li>
+                <li><a href="https://www.glassdoor.com" target="_blank">Glassdoor</a></li>
+            </ul>
+
+            <h2>Interview Tips</h2>
+            <p>Prepare for your interviews with these helpful tips:</p>
+            <ul>
+                <li>Research the company and role.</li>
+                <li>Practice common interview questions.</li>
+                <li>Dress appropriately and arrive on time.</li>
+                <li>Follow up with a thank-you email after the interview.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 E-Learning Platform. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

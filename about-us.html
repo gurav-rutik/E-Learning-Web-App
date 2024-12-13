@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link your main CSS file -->
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        /* Light background color */
+    }
+
+
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-left {
+        display: flex;
+        align-items: center;
+    }
+
+    .logo {
+        width: 50px;
+        /* Logo size */
+        margin-right: 20px;
+    }
+
+    .nav-link {
+        color: white;
+        /* Text color for links */
+        text-decoration: none;
+        /* No underline */
+        padding: 10px;
+    }
+
+    .more-button {
+        background: none;
+        color: white;
+        /* Text color for More button */
+        border: none;
+        padding: 0;
+        font-size: inherit;
+        cursor: pointer;
+    }
+
+    .more-button:hover {
+        color: blue;
+    }
+
+    .about-us {
+        max-width: 800px;
+        /* Max width for content */
+        margin: 100px auto;
+        /* Center align */
+        padding: 20px;
+        background: white;
+        /* White background for content area */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* Light shadow */
+        border-radius: 8px;
+        /* Rounded corners */
+    }
+
+    .about-us h1 {
+        font-size: 32px;
+
+        margin-bottom: 20px;
+        color: #333;
+        /* Darker color for headings */
+        justify-content: center;
+        /* Center align */
+    }
+
+    footer {
+        text-align: center;
+        padding: 10px 0;
+        background-color: #3333339d;
+        /* Dark footer */
+        color: black;
+        /* Text color for footer */
+        margin-top: 142px;
+    }
+
+
+    .logo {
+        width: 160px;
+        margin-right: 20px;
+        cursor: pointer;
+    }
+
+    .navbar {
+        /* position: fixed;
+    top: 0;
+    left: 0;
+    width: 97%;
+    height: 60px; */
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #333333ab;
+        padding: 0 20px;
+        margin-top: 0px;
+        position: relative;
+        top: 0;
+        z-index: 1000;
+        /* color: white; */
+        height: 70px;
+        width: 100%;
+        margin-left: 20px;
+        /* margin-right: 400px; */
+        margin: 0;
+        margin-right: 50px;
+        box-sizing: border-box;
+    }
+
+    .nav-left {
+        display: flex;
+        align-items: center;
+        margin-right: 100px;
+        gap: 10px;
+    }
+
+    .nav-link:hover {
+        color: blue;
+    }
+
+    /* New Section for Logo Alignment */
+    .nav-right {
+        display: flex;
+        /* margin-left: 600px; */
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .nav-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        gap: 10px;
+        margin-left: 100px;
+    }
+    
+
+    /* .search-bar {
+        display: flex;
+        align-items: center;
+        margin-left: 55px; 
+    }
+    
+    .search-input {
+        padding: 6px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px 0 0 4px;
+        outline: none;
+        width: 200px; /* Increased width for better visibility 
+        color: #333; /* Change text color for better visibility 
+        transition: border-color 0.3s; /* Smooth transition for border color 
+        background: transparent;
+    }
+    
+    .search-input::placeholder {
+        color: #999; /* Placeholder color 
+    }
+    
+    .search-input:focus {
+        border-color: royalblue; /* Change border color on focus 
+    }
+    
+    .search-button {
+        padding: 6px;
+        font-size: 14px;
+        background-color: #333333ab; /* Button background color 
+        color: white; /* Button text color 
+        border: 1px solid #333333ab;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        margin-left: -1px; /* Adjust to eliminate border overlap 
+    }
+     */
+    
+
+    
+
+</style>
+
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="nav-left">
+                <img src="./images/e-learning.png" alt="Logo" class="logo" />
+                <a href="career-support.html" class="nav-link">Career Support</a>
+                <!-- <a href="courses.html#more1" class="nav-link more-button">More</a> -->
+                <!-- <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search for courses..." />
+                    <button type="button" class="search-button">🔍</button>
+                </div> -->
+                <div class="nav-center">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="courses.html#courses-section" class="nav-link">Courses</a>
+                    <!-- <a href="about-us.html" class="nav-link">About Us</a> -->
+                    <a href="courses.html#contact-menu" class="nav-link">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="about-us">
+            <h1>About Us</h1>
+            <p>Welcome to our e-learning platform! We are dedicated to providing high-quality courses to help you
+                advance your career and learn new skills.</p>
+            <p>Our mission is to make learning accessible and engaging for everyone. We offer a wide range of courses
+                across various fields, including technology, business, design, and personal development.</p>
+            <p>Join our community of learners and start your journey today!</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

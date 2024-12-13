@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Login and Account Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f5f5f5;
+      margin-top: 50px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .form-container {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .form {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+    }
+
+    .form input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form button {
+      width: 95%;
+      margin-top: 10px;
+    }
+
+    .links {
+      margin-top: 10px;
+    }
+
+    .links a {
+      color: #007bff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="startBtn">Get Started</button>
+
+  <div id="formContainer" class="form-container">
+    <div id="loginForm" class="form">
+      <h2>Login</h2>
+      <input type="text" id="email" placeholder="Enter your email" required>
+      <input type="password" id="password" placeholder="Enter your password" required>
+      <button id="loginBtn">Login</button>
+      <div class="links">
+        <a href="#" id="createAccountLink">Create Account</a>
+        <a href="#" id="forgotPasswordLink">Forgot Password</a>
+      </div>
+    </div>
+
+    <div id="createAccountForm" class="form" style="display: none;">
+      <h2>Create Account</h2>
+      <input type="text" id="email" placeholder="Enter your email" required>
+      <input type="password" id="password" placeholder="Create your password" required>
+      <button id="createAccountBtn">Create Account</button>
+      <div class="links">
+        <a href="#" id="backToLoginLink">Back to Login</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const formContainer = document.getElementById('formContainer');
+    const loginForm = document.getElementById('loginForm');
+    const createAccountForm = document.getElementById('createAccountForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const createAccountLink = document.getElementById('createAccountLink');
+    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+    const createAccountBtn = document.getElementById('createAccountBtn');
+    const backToLoginLink = document.getElementById('backToLoginLink');
+
+    // Open login form when the button is clicked
+    startBtn.addEventListener('click', () => {
+        formContainer.style.display = 'block';
+        loginForm.style.display = 'block';
+        createAccountForm.style.display = 'none';
+    });
+
+    // Switch to create account form
+    createAccountLink.addEventListener('click', () => {
+        loginForm.style.display = 'none';
+        createAccountForm.style.display = 'block';
+    });
+
+    // Switch back to login form
+    backToLoginLink.addEventListener('click', () => {
+        createAccountForm.style.display = 'none';
+        loginForm.style.display = 'block';
+    });
+
+    // Create account and store in localStorage
+    createAccountBtn.addEventListener('click', () => {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (email && password) {
+            localStorage.setItem(email, password);
+            alert('Account created successfully!');
+            createAccountForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        } else {
+            alert('Please fill all fields.');
+        }
+    });
+
+    // Login and store last logged-in user in localStorage
+    loginBtn.addEventListener('click', () => {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const storedPassword = localStorage.getItem(email);
+
+        if (storedPassword) {
+            if (storedPassword === password) {
+                localStorage.setItem('lastLoggedIn', JSON.stringify({ email, password }));
+                alert('Login successful! Redirecting to courses...');
+                window.location.href = 'courses.html';
+            } else {
+                alert('Incorrect password!');
+            }
+        } else {
+            alert('User not found! Please create an account.');
+        }
+    });
+
+    // Forgot Password - Retrieve the last logged-in user details
+    forgotPasswordLink.addEventListener('click', () => {
+        const lastLoggedIn = JSON.parse(localStorage.getItem('lastLoggedIn'));
+        if (lastLoggedIn) {
+            alert(`Previously logged-in user details:\nEmail: ${lastLoggedIn.email}\nPassword: ${lastLoggedIn.password}`);
+        } else {
+            alert('No user has logged in yet!');
+        }
+    });
+</script>
+
+</body>
+</html>

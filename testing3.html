@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Search</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .search-bar {
+            position: relative;
+            width: 300px;
+            margin: 20px;
+        }
+
+        .search-input {
+            padding: 8px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+
+        .search-button {
+            padding: 8px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-top: none;
+            max-height: 150px;
+            overflow-y: auto;
+            border-radius: 0 0 4px 4px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="search-bar">
+    <input type="text" class="search-input" placeholder="Search for courses..." oninput="showSuggestions(this.value)">
+    <button type="button" class="search-button" onclick="goToCourse()">🔍</button>
+    <div class="suggestions" id="suggestions"></div>
+</div>
+
+<script>
+    const courses = [
+        { name: "Data Science", link: "courses.html#data-science" },
+        { name: "Machine Learning", link: "courses.html#machine-learning" },
+        { name: "Artificial Intelligence", link: "courses.html#artificial-intelligence" },
+        { name: "Big Data", link: "courses.html#big-data" },
+        { name: "Deep Learning", link: "courses.html#deep-learning" },
+        { name: "Data Visualization", link: "courses.html#data-visualization" },
+        { name: "Front-end Development", link: "courses.html#front-end-development" },
+        { name: "Cloud Computing", link: "courses.html#cloud-computing" },
+        { name: "DevOps", link: "courses.html#devops" },
+        { name: "Cyber Security", link: "courses.html#cyber-security" },
+        { name: "Business Analytics", link: "courses.html#business-analytics" },
+        { name: "Digital Marketing", link: "courses.html#digital-marketing" },
+        { name: "Management", link: "courses.html#management" }
+    ];
+
+    function showSuggestions(query) {
+        const suggestionsBox = document.getElementById('suggestions');
+        suggestionsBox.innerHTML = '';
+        if (query.length === 0) {
+            suggestionsBox.style.display = 'none';
+            return;
+        }
+
+        const matches = courses.filter(course => 
+            course.name.toLowerCase().includes(query.toLowerCase())
+        );
+
+        if (matches.length === 0) {
+            suggestionsBox.style.display = 'none';
+        } else {
+            matches.forEach(course => {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.classList.add('suggestion-item');
+                suggestionItem.textContent = course.name;
+                suggestionItem.onclick = () => selectCourse(course);
+                suggestionsBox.appendChild(suggestionItem);
+            });
+            suggestionsBox.style.display = 'block';
+        }
+    }
+
+    function selectCourse(course) {
+        document.querySelector('.search-input').value = course.name;
+        document.querySelector('.search-input').dataset.link = course.link;
+        document.getElementById('suggestions').style.display = 'none';
+    }
+
+    function goToCourse() {
+        const link = document.querySelector('.search-input').dataset.link;
+        if (link) {
+            window.location.href = link;
+        } else {
+            alert("Please select a course from the suggestions.");
+        }
+    }
+
+    document.addEventListener('click', function (e) {
+        const suggestionsBox = document.getElementById('suggestions');
+        if (!document.querySelector('.search-bar').contains(e.target)) {
+            suggestionsBox.style.display = 'none';
+        }
+    });
+</script>
+
+</body>
+</html>

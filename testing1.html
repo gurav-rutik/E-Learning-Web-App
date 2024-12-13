@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Most Demandable Courses</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM7e02Rz6Y8J6x0YfUZz0iYxwAZ5q5HR1pXikbb" crossorigin="anonymous">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    
+    .section {
+        padding: 20px;
+        grid-template-columns: repeat(4,1rem);
+    }
+    
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+    
+    .courses-container {
+        display: flex;
+        align-items: center;
+        overflow-x: hidden;
+        position: relative;
+        max-width: 100%;
+    }
+    
+    .first {
+        display: flex;
+        gap: 20px;
+        overflow-x: scroll;
+        scroll-behavior: smooth;
+        padding: 10px 0;
+    }
+    
+    .first::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+    }
+    
+    .rutik {
+        width: 200px;
+        min-width: 200px;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        padding: 10px;
+    }
+    
+    .rutik img {
+        width: 100%;
+        border-radius: 5px;
+    }
+    
+    .enroll-btn {
+        margin-top: 10px;
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .first::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+    }
+    .scroll-right {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #007bff;
+        cursor: pointer;
+    }
+    
+    .scroll-right:hover {
+        color: #0056b3;
+    }
+
+    .first {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .section {
+        margin: 20px;
+        padding: 20px;
+        border-radius: 10px;
+        /* background-color: white; */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 60px;
+        text-align: center;
+    }
+    
+</style>
+<body>
+
+<div class="section">
+    <h2><span>Most Demandable Courses</span></h2>
+    <div class="courses-container">
+        <div class="first">
+            <div class="rutik">
+                <img src="./images/new/movie1.jpg" alt="Course Image">
+                <h3>Java Programming</h3>
+                <button class="enroll-btn" data-course="Java Programming" data-amount="500">Enroll</button>
+            </div>
+            <!-- Repeat this block for each course -->
+            <div class="rutik">
+                <img src="./images/new/movie2.jpg" alt="Course Image">
+                <h3>Python Programming</h3>
+                <button class="enroll-btn" data-course="Python Programming" data-amount="500">Enroll</button>
+            </div>
+            <div class="rutik">
+                <img src="./images/new/movie2.jpg" alt="Course Image">
+                <h3>Python Programming</h3>
+                <button class="enroll-btn" data-course="Python Programming" data-amount="500">Enroll</button>
+            </div>
+            <div class="rutik">
+                <img src="./images/new/movie2.jpg" alt="Course Image">
+                <h3>Python Programming</h3>
+                <button class="enroll-btn" data-course="Python Programming" data-amount="500">Enroll</button>
+            </div>
+            <div class="rutik">
+                <img src="./images/new/movie2.jpg" alt="Course Image">
+                <h3>Python Programming</h3>
+                <button class="enroll-btn" data-course="Python Programming" data-amount="500">Enroll</button>
+            </div>
+            <div class="rutik">
+                <img src="./images/new/movie2.jpg" alt="Course Image">
+                <h3>Python Programming</h3>
+                <button class="enroll-btn" data-course="Python Programming" data-amount="500">Enroll</button>
+            </div>
+            <div class="rutik">
+                <img src="./images/new/movie2.jpg" alt="Course Image">
+                <h3>Python Programming</h3>
+                <button class="enroll-btn" data-course="Python Programming" data-amount="500">Enroll</button>
+            </div>
+            <div class="rutik">
+                <img src="./images/new/movie2.jpg" alt="Course Image">
+                <h3>Python Programming</h3>
+                <button class="enroll-btn" data-course="Python Programming" data-amount="500">Enroll</button>
+            </div>
+
+            <!-- Add more courses as needed -->
+        </div>
+        <!-- Scroll Right Button -->
+        <button class="scroll-right"><i class="fa-solid fa-circle-right"></i></button>
+    </div>
+</div>
+</body>
+<script>
+    document.querySelector(".scroll-right").addEventListener("click", function() {
+        document.querySelector(".first").scrollBy({
+            left: 200, // Adjust the scroll distance as needed
+            behavior: "smooth"
+        });
+    });
+    
+</script>
+</html>
+<!-- /////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+    
+
+      <div class="section">
+        <h2><span>Personal Development Courses</span></h2>
+        <div class="first">
+          <div class="rutik">
+            <img src="./images/new/movie1.jpg" alt="Movie 1" />
+            <h3>Java Programming</h3>
+            <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+              Enroll
+            </button>
+          </div>
+          <div class="rutik">
+            <img src="./images/new/movie2.jpg" alt="Movie 2" />
+            <h3>Java Programming</h3>
+            <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+              Enroll
+            </button>
+          </div>
+          <div class="rutik">
+            <img src="./images/new/movie3.jpg" alt="Movie 3" />
+            <h3>Java Programming</h3>
+            <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+              Enroll
+            </button>
+          </div>
+          <div class="rutik">
+            <img src="./images/new/movie4.jpg" alt="Movie 4" />
+            <h3>Java Programming</h3>
+            <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+              Enroll
+            </button>
+          </div>
+          <div class="rutik">
+            <img src="./images/new/movie5.jpg" alt="Movie 5" />
+            <h3>Java Programming</h3>
+            <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+              Enroll
+            </button>
+          </div>
+          <div class="rutik">
+            <img src="./images/new/movie5.jpg" alt="Movie 5" />
+            <h3>Java Programming</h3>
+            <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+              Enroll
+            </button>
+          </div>
+          <div class="rutik">
+            <img src="./images/new/movie5.jpg" alt="Movie 5" />
+            <h3>Java Programming</h3>
+            <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+              Enroll
+            </button>
+          </div>
+          <div class="rutik">
+            <img src="./images/new/movie5.jpg" alt="Movie 5" />
+            <h3>Java Programming</h3>
+            <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+              Enroll
+            </button>
+          </div>
+          <div class="rutik">
+            <img src="./images/new/movie5.jpg" alt="Movie 5" />
+            <h3>Java Programming</h3>
+            <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+              Enroll
+            </button>
+          </div>
+          <div class="rutik">
+            <img src="./images/new/movie5.jpg" alt="Movie 5" />
+            <h3>Java Programming</h3>
+            <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+              Enroll
+            </button>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2><span>Design Courses</span></h2>
+          <div class="first">
+            <div class="rutik">
+              <img src="./images/new/movie1.jpg" alt="Movie 1" />
+              <h3>Java Programming</h3>
+              <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                Enroll
+              </button>
+            </div>
+            <div class="rutik">
+              <img src="./images/new/movie2.jpg" alt="Movie 2" />
+              <h3>Java Programming</h3>
+              <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                Enroll
+              </button>
+            </div>
+            <div class="rutik">
+              <img src="./images/new/movie3.jpg" alt="Movie 3" />
+              <h3>Java Programming</h3>
+              <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                Enroll
+              </button>
+            </div>
+            <div class="rutik">
+              <img src="./images/new/movie4.jpg" alt="Movie 4" />
+              <h3>Java Programming</h3>
+              <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                Enroll
+              </button>
+            </div>
+            <div class="rutik">
+              <img src="./images/new/movie5.jpg" alt="Movie 5" />
+              <h3>Java Programming</h3>
+              <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                Enroll
+              </button>
+            </div>
+            <div class="rutik">
+              <img src="./images/new/movie5.jpg" alt="Movie 5" />
+              <h3>Java Programming</h3>
+              <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                Enroll
+              </button>
+            </div>
+            <div class="rutik">
+              <img src="./images/new/movie5.jpg" alt="Movie 5" />
+              <h3>Java Programming</h3>
+              <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                Enroll
+              </button>
+            </div>
+            <div class="rutik">
+              <img src="./images/new/movie5.jpg" alt="Movie 5" />
+              <h3>Java Programming</h3>
+              <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                Enroll
+              </button>
+            </div>
+            <div class="rutik">
+              <img src="./images/new/movie5.jpg" alt="Movie 5" />
+              <h3>Java Programming</h3>
+              <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                Enroll
+              </button>
+            </div>
+            <div class="rutik">
+              <img src="./images/new/movie5.jpg" alt="Movie 5" />
+              <h3>Java Programming</h3>
+              <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                Enroll
+              </button>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2><span>Lifestyle Courses</span></h2>
+            <div class="first">
+              <div class="rutik">
+                <img src="./images/new/movie1.jpg" alt="Movie 1" />
+                <h3>Java Programming</h3>
+                <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                  Enroll
+                </button>
+              </div>
+              <div class="rutik">
+                <img src="./images/new/movie2.jpg" alt="Movie 2" />
+                <h3>Java Programming</h3>
+                <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                  Enroll
+                </button>
+              </div>
+              <div class="rutik">
+                <img src="./images/new/movie3.jpg" alt="Movie 3" />
+                <h3>Java Programming</h3>
+                <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                  Enroll
+                </button>
+              </div>
+              <div class="rutik">
+                <img src="./images/new/movie4.jpg" alt="Movie 4" />
+                <h3>Java Programming</h3>
+                <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                  Enroll
+                </button>
+              </div>
+              <div class="rutik">
+                <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                <h3>Java Programming</h3>
+                <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                  Enroll
+                </button>
+              </div>
+              <div class="rutik">
+                <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                <h3>Java Programming</h3>
+                <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                  Enroll
+                </button>
+              </div>
+              <div class="rutik">
+                <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                <h3>Java Programming</h3>
+                <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                  Enroll
+                </button>
+              </div>
+              <div class="rutik">
+                <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                <h3>Java Programming</h3>
+                <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                  Enroll
+                </button>
+              </div>
+              <div class="rutik">
+                <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                <h3>Java Programming</h3>
+                <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                  Enroll
+                </button>
+              </div>
+              <div class="rutik">
+                <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                <h3>Java Programming</h3>
+                <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                  Enroll
+                </button>
+              </div>
+            </div>
+
+            <div class="section">
+              <h2><span>Photography & Video Courses</span></h2>
+              <div class="first">
+                <div class="rutik">
+                  <img src="./images/new/movie1.jpg" alt="Movie 1" />
+                  <h3>Java Programming</h3>
+                  <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                    Enroll
+                  </button>
+                </div>
+                <div class="rutik">
+                  <img src="./images/new/movie2.jpg" alt="Movie 2" />
+                  <h3>Java Programming</h3>
+                  <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                    Enroll
+                  </button>
+                </div>
+                <div class="rutik">
+                  <img src="./images/new/movie3.jpg" alt="Movie 3" />
+                  <h3>Java Programming</h3>
+                  <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                    Enroll
+                  </button>
+                </div>
+                <div class="rutik">
+                  <img src="./images/new/movie4.jpg" alt="Movie 4" />
+                  <h3>Java Programming</h3>
+                  <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                    Enroll
+                  </button>
+                </div>
+                <div class="rutik">
+                  <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                  <h3>Java Programming</h3>
+                  <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                    Enroll
+                  </button>
+                </div>
+                <div class="rutik">
+                  <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                  <h3>Java Programming</h3>
+                  <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                    Enroll
+                  </button>
+                </div>
+                <div class="rutik">
+                  <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                  <h3>Java Programming</h3>
+                  <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                    Enroll
+                  </button>
+                </div>
+                <div class="rutik">
+                  <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                  <h3>Java Programming</h3>
+                  <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                    Enroll
+                  </button>
+                </div>
+                <div class="rutik">
+                  <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                  <h3>Java Programming</h3>
+                  <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                    Enroll
+                  </button>
+                </div>
+                <div class="rutik">
+                  <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                  <h3>Java Programming</h3>
+                  <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                    Enroll
+                  </button>
+                </div>
+              </div>
+
+              <div class="section">
+                <h2><span>Health & Fitness Courses</span></h2>
+                <div class="first">
+                  <div class="rutik">
+                    <img src="./images/new/movie1.jpg" alt="Movie 1" />
+                    <h3>Java Programming</h3>
+                    <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                      Enroll
+                    </button>
+                  </div>
+                  <div class="rutik">
+                    <img src="./images/new/movie2.jpg" alt="Movie 2" />
+                    <h3>Java Programming</h3>
+                    <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                      Enroll
+                    </button>
+                  </div>
+                  <div class="rutik">
+                    <img src="./images/new/movie3.jpg" alt="Movie 3" />
+                    <h3>Java Programming</h3>
+                    <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                      Enroll
+                    </button>
+                  </div>
+                  <div class="rutik">
+                    <img src="./images/new/movie4.jpg" alt="Movie 4" />
+                    <h3>Java Programming</h3>
+                    <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                      Enroll
+                    </button>
+                  </div>
+                  <div class="rutik">
+                    <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                    <h3>Java Programming</h3>
+                    <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                      Enroll
+                    </button>
+                  </div>
+                  <div class="rutik">
+                    <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                    <h3>Java Programming</h3>
+                    <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                      Enroll
+                    </button>
+                  </div>
+                  <div class="rutik">
+                    <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                    <h3>Java Programming</h3>
+                    <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                      Enroll
+                    </button>
+                  </div>
+                  <div class="rutik">
+                    <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                    <h3>Java Programming</h3>
+                    <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                      Enroll
+                    </button>
+                  </div>
+                  <div class="rutik">
+                    <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                    <h3>Java Programming</h3>
+                    <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                      Enroll
+                    </button>
+                  </div>
+                  <div class="rutik">
+                    <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                    <h3>Java Programming</h3>
+                    <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                      Enroll
+                    </button>
+                  </div>
+                </div>
+
+                <div class="section">
+                  <h2><span>Music Courses</span></h2>
+                  <div class="first">
+                    <div class="rutik">
+                      <img src="./images/new/movie1.jpg" alt="Movie 1" />
+                      <h3>Java Programming</h3>
+                      <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                        Enroll
+                      </button>
+                    </div>
+                    <div class="rutik">
+                      <img src="./images/new/movie2.jpg" alt="Movie 2" />
+                      <h3>Java Programming</h3>
+                      <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                        Enroll
+                      </button>
+                    </div>
+                    <div class="rutik">
+                      <img src="./images/new/movie3.jpg" alt="Movie 3" />
+                      <h3>Java Programming</h3>
+                      <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                        Enroll
+                      </button>
+                    </div>
+                    <div class="rutik">
+                      <img src="./images/new/movie4.jpg" alt="Movie 4" />
+                      <h3>Java Programming</h3>
+                      <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                        Enroll
+                      </button>
+                    </div>
+                    <div class="rutik">
+                      <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                      <h3>Java Programming</h3>
+                      <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                        Enroll
+                      </button>
+                    </div>
+                    <div class="rutik">
+                      <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                      <h3>Java Programming</h3>
+                      <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                        Enroll
+                      </button>
+                    </div>
+                    <div class="rutik">
+                      <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                      <h3>Java Programming</h3>
+                      <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                        Enroll
+                      </button>
+                    </div>
+                    <div class="rutik">
+                      <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                      <h3>Java Programming</h3>
+                      <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                        Enroll
+                      </button>
+                    </div>
+                    <div class="rutik">
+                      <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                      <h3>Java Programming</h3>
+                      <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                        Enroll
+                      </button>
+                    </div>
+                    <div class="rutik">
+                      <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                      <h3>Java Programming</h3>
+                      <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                        Enroll
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="section">
+                    <h2><span>Teaching & Academics Courses</span></h2>
+                    <div class="first">
+                      <div class="rutik">
+                        <img src="./images/new/movie1.jpg" alt="Movie 1" />
+                        <h3>Java Programming</h3>
+                        <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                          Enroll
+                        </button>
+                      </div>
+                      <div class="rutik">
+                        <img src="./images/new/movie2.jpg" alt="Movie 2" />
+                        <h3>Java Programming</h3>
+                        <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                          Enroll
+                        </button>
+                      </div>
+                      <div class="rutik">
+                        <img src="./images/new/movie3.jpg" alt="Movie 3" />
+                        <h3>Java Programming</h3>
+                        <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                          Enroll
+                        </button>
+                      </div>
+                      <div class="rutik">
+                        <img src="./images/new/movie4.jpg" alt="Movie 4" />
+                        <h3>Java Programming</h3>
+                        <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                          Enroll
+                        </button>
+                      </div>
+                      <div class="rutik">
+                        <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                        <h3>Java Programming</h3>
+                        <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                          Enroll
+                        </button>
+                      </div>
+                      <div class="rutik">
+                        <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                        <h3>Java Programming</h3>
+                        <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                          Enroll
+                        </button>
+                      </div>
+                      <div class="rutik">
+                        <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                        <h3>Java Programming</h3>
+                        <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                          Enroll
+                        </button>
+                      </div>
+                      <div class="rutik">
+                        <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                        <h3>Java Programming</h3>
+                        <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                          Enroll
+                        </button>
+                      </div>
+                      <div class="rutik">
+                        <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                        <h3>Java Programming</h3>
+                        <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                          Enroll
+                        </button>
+                      </div>
+                      <div class="rutik">
+                        <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                        <h3>Java Programming</h3>
+                        <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                          Enroll
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="section">
+                      <h2><span>Marketing Courses</span></h2>
+                      <div class="first">
+                        <div class="rutik">
+                          <img src="./images/new/movie1.jpg" alt="Movie 1" />
+                          <h3>Java Programming</h3>
+                          <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                            Enroll
+                          </button>
+                        </div>
+                        <div class="rutik">
+                          <img src="./images/new/movie2.jpg" alt="Movie 2" />
+                          <h3>Java Programming</h3>
+                          <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                            Enroll
+                          </button>
+                        </div>
+                        <div class="rutik">
+                          <img src="./images/new/movie3.jpg" alt="Movie 3" />
+                          <h3>Java Programming</h3>
+                          <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                            Enroll
+                          </button>
+                        </div>
+                        <div class="rutik">
+                          <img src="./images/new/movie4.jpg" alt="Movie 4" />
+                          <h3>Java Programming</h3>
+                          <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                            Enroll
+                          </button>
+                        </div>
+                        <div class="rutik">
+                          <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                          <h3>Java Programming</h3>
+                          <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                            Enroll
+                          </button>
+                        </div>
+                        <div class="rutik">
+                          <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                          <h3>Java Programming</h3>
+                          <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                            Enroll
+                          </button>
+                        </div>
+                        <div class="rutik">
+                          <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                          <h3>Java Programming</h3>
+                          <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                            Enroll
+                          </button>
+                        </div>
+                        <div class="rutik">
+                          <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                          <h3>Java Programming</h3>
+                          <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                            Enroll
+                          </button>
+                        </div>
+                        <div class="rutik">
+                          <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                          <h3>Java Programming</h3>
+                          <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                            Enroll
+                          </button>
+                        </div>
+                        <div class="rutik">
+                          <img src="./images/new/movie5.jpg" alt="Movie 5" />
+                          <h3>Java Programming</h3>
+                          <button class="enroll-btn" data-course="Java Programming" data-amount="500">
+                            Enroll
+                          </button>
+                        </div>
+                      </div>

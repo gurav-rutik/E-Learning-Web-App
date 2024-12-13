@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* Popup Container */
+    .video-popup {
+        display: none;
+        /* Initially hidden */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        /* Black overlay with transparency */
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Popup Content */
+    .popup-content {
+        position: relative;
+        width: 80%;
+        max-width: 700px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Video Frame */
+    .popup-content iframe {
+        width: 100%;
+        height: 400px;
+        border-radius: 8px;
+    }
+
+    /* Close Button */
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        color: black;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+    }
+</style>
+
+<body>
+    <div class="hiii">
+        Upskill your tech talent with <span style="color: yellow;">E-Learning Business</span>
+        <div><button class="demo-button" onclick="openVideoPopup()">View free demo today</button></div>
+    </div>
+
+    <!-- Popup Video Container -->
+    <div id="videoPopup" class="video-popup">
+        <div class="popup-content">
+            <span class="close-button" onclick="closeVideoPopup()">✖</span>
+            <iframe id="demoVideo" src="video\video\final_video.mp4" frameborder="0" allow="autoplay; encrypted-media"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+</body>
+<script>
+    // Open the popup
+    function openVideoPopup() {
+        document.getElementById('videoPopup').style.display = 'flex';
+    }
+
+    // Close the popup
+    function closeVideoPopup() {
+        const videoPopup = document.getElementById('videoPopup');
+        videoPopup.style.display = 'none';
+
+        // Stop video playback when the popup is closed
+        const iframe = document.getElementById('demoVideo');
+        iframe.src = iframe.src;
+    }
+
+</script>
+
+</html>
+<!-- <style>
+      .hii {
+        height: 200px;
+        width: 100%;
+        background-color: #bd44bd;
+        text-align: center;
+        color: white;
+        font-size: xx-large;
+        font-weight: bold;
+
+        /* Flexbox for centering */
+        display: flex;
+        /* Enable Flexbox */
+        justify-content: center;
+        /* Center horizontally */
+        align-items: center;
+        /* Center vertically */
+      }
+
+      .demo-button {
+        background-color: black;
+        /* Button background color */
+        color: white;
+        /* Button text color */
+        border: none;
+        /* Remove default border */
+        padding: 10px 20px;
+        /* Add some padding */
+        border-radius: 5px;
+        /* Rounded corners */
+        font-size: large;
+        /* Increase font size */
+        cursor: pointer;
+        /* Pointer cursor on hover */
+        transition: background-color 0.3s;
+        /* Smooth background color change */
+
+      }
+
+
+
+      .demo-button:hover {
+        color: black;
+        background-color: white;
+        /* Change background color on hover */
+      }
+    </style>
+  </div>
+  <div class="contact-section" id="contact-menu">
+    <div class="contact-left">
+      <h3 style="font-size: 30px;">Contact Us</h3>
+      <p>For any queries please share your contact details and the team will reach out to you soon.</p>
+      <p>Email: <a href="mailto:corporate@greatlearning.in">rutikgurav15@gmail.com</a></p>
+    </div>
+
+    <div class="contact-right">
+      <form id="contact-form">
+        <div class="form-group">
+          <label for="full-name">Full Name</label>
+          <input type="text" id="full-name" name="full-name" placeholder="Full Name" required>
+        </div>
+        <div class="form-group">
+          <label for="mobile-no">Mobile No</label>
+          <input type="tel" id="mobile-no" name="mobile-no" placeholder="Mobile No" No required>
+        </div>
+        <div class="form-group">
+          <label for="company-name">Company Name</label>
+          <input type="text" id="company-name" name="company-name" placeholder="Company Name" required>
+        </div>
+        <div class="form-group">
+          <label for="company-email">Company Email</label>
+          <input type="email" id="company-email" name="company-email" placeholder="Company Email" required>
+        </div>
+        <div class="form-group">
+          <label for="designation">Designation</label>
+          <input type="text" id="designation" name="designation" placeholder="Designation" required>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+
+    </div>
+  </div>
+
+  <style>
+    .contact-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #1e8fff48;
+      justify-content: space-between;
+    }
+
+    .contact-left {
+      flex: 1;
+      padding-right: 20px;
+    }
+
+    .contact-right {
+      flex: 1;
+      padding-left: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      padding-top: -30px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid gray;
+      border-radius: 4px;
+      margin-left: -20px;
+      background: transparent;
+
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style> -->

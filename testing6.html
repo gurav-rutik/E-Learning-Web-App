@@ -1,0 +1,2644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap"
+    rel="stylesheet" />
+  <link rel="shortcut icon" href="./images/logo.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <title>E-Learning Platform</title>
+</head>
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    background-color: #c26666;
+  }
+
+  /* Row styling */
+  .row {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin: 30px 0;
+    /* Add vertical spacing between rows */
+  }
+
+  /* Column styling */
+  .column {
+    flex: 1;
+    max-width: 30%;
+    padding: 20px;
+    /* Increase padding for more spacing between columns */
+    box-sizing: border-box;
+  }
+
+  .column:hover {
+    transform: scale(1.05);
+    background-color: wheat;
+  }
+
+  /* Card styling */
+  .card {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #00000017;
+  }
+
+  /* Title styling */
+  .card-title {
+    font-size: 1.5em;
+    margin: 0;
+    padding-bottom: 10px;
+    font-weight: 900;
+  }
+
+  /* Icon styling */
+  .card-icon {
+    font-size: 3em;
+    margin-bottom: 30px;
+    /* Adjust spacing between the icon and the content */
+  }
+
+  /* List styling */
+  .card-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  .card-list li {
+    margin-bottom: 12px;
+    /* Add more space between list items */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-list li .arrow {
+    font-size: 1.2em;
+    color: #ccc;
+  }
+
+  .card-list li:hover .arrow {
+    color: #000;
+  }
+
+  h2 {
+    margin-top: 30px;
+    /* Adjust the top margin for space after the first row */
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .description {
+    font-size: 1.2em;
+    margin-top: auto;
+    color: #000000d0;
+    text-align: center;
+    line-height: 15px;
+  }
+
+
+  /*///////////////////////////////////////////////////////////////////////////////*/
+  .row {
+    display: flex;
+    /* Use Flexbox for layout */
+    justify-content: space-evenly;
+    /* Center the boxes */
+    flex-wrap: wrap;
+    /* Allow boxes to wrap */
+    margin: 0;
+    /* Remove margin between boxes */
+    padding: 20px 0;
+    /* Add padding above and below the row */
+  }
+
+  .cloud-box,
+  .data-box,
+  .ai-box,
+  .devops-box {
+    background-color: #fff;
+    /* White background for each box */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    /* Center text */
+    padding: 20px;
+    /* Add padding to each box */
+    max-width: 200px;
+    /* Set a max width for each box */
+    margin: 10px;
+    /* Add margin around each box */
+    background: transparent;
+  }
+
+  .cloud-image img,
+  .data-image img,
+  .ai-image img,
+  .devops-image img {
+    width: 100%;
+    /* Make images responsive */
+    border-radius: 10px;
+    /* Round the image corners */
+  }
+
+  .cloud-title,
+  .data-title,
+  .ai-title,
+  .devops-title {
+    font-size: 1.2em;
+    /* Adjust title font size */
+    margin: 10px 0 5px;
+    /* Adjust margins for titles */
+    font-weight: bold;
+    /* Make titles bold */
+  }
+
+  .cloud-info,
+  .data-info,
+  .ai-info,
+  .devops-info {
+    font-size: 0.9em;
+    /* Adjust info font size */
+    margin-top: 5px;
+    /* Space between title and info */
+    color: #555;
+    /* Slightly darker color for info */
+  }
+
+  .cloud-box:hover {
+    background-color: wheat;
+  }
+
+  .data-box:hover {
+    background-color: wheat;
+  }
+
+  .ai-box:hover {
+    background-color: wheat;
+  }
+
+  .devops-box:hover {
+    background-color: wheat;
+  }
+
+  /*///////////////////////////////////////////////////////////////////////////////*/
+
+  .header .main-heading {
+    font-size: 2.5em;
+    color: #fff;
+    text-align: center;
+  }
+
+  /*/////////////////////////////////*/
+  .course-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+  }
+
+  .rutik {
+    position: relative;
+    width: 200px;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .rutik img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  /* Popup styling */
+  .course-popup {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 400px;
+    width: 300px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    border: 1px solid black;
+  }
+
+  .course-popup h3 {
+    margin-top: 0;
+  }
+
+  .course-popup button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #c21c8a;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .course-popup button:hover {
+    background-color: #0056b3;
+  }
+
+  .favorite-btn {
+    background-color: #ff0055;
+  }
+
+  .favorite-btn:hover {
+    background-color: #d9004b;
+  }
+
+  /* Display popup when hovering over the course link or the popup itself */
+  .course-link:hover+#coursePopup,
+  #coursePopup:hover {
+    display: block;
+  }
+
+
+  .more-menu {
+    position: relative;
+    display: inline-block;
+  }
+
+  .more-button {
+    background-color: #c21c8a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    background: none;
+    font-weight: bold;
+  }
+
+  .more-button:hover {
+    color: blue;
+    background: none;
+  }
+
+  .more-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .more-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .more-content a:hover {
+    background-color: #f1f1f1;
+  }
+</style>
+
+<body>
+  <!-- Navigation Bar -->
+  <header>
+    <nav class="navbar">
+      <div class="nav-left">
+        <img src="./images/e-learning.png" alt="Logo" class="logo" />
+
+        <!-- Course Categories Dropdown -->
+        <div class="dropdown">
+          <button class="dropbtn">Categories</button>
+          <div class="dropdown-content">
+            <div class="dropdown">
+              <a href="#">Development</a>
+              <!-- Popup for Development Courses -->
+              <div class="popup-content">
+                <a href="#">Web Development</a>
+                <a href="#">Data Science</a>
+                <a href="#">Mobile App Development</a>
+                <a href="#">Programming Languages</a>
+                <a href="#">Game Development</a>
+                <a href="#">Database Design & Development</a>
+                <a href="#">Software Testing</a>
+                <a href="#">Software Engineering</a>
+                <a href="#">Software Development Tools</a>
+                <a href="#">No-code Development</a>
+              </div>
+            </div>
+            <div class="dropdown">
+              <a href="#">IT & Software</a>
+              <div class="popup-content">
+                <a href="#">AWS Certified Cloud Practitioner</a>
+                <a href="#">Ethical Hacking</a>
+                <a href="#">Cybersecurity</a>
+                <a href="#">Microcontroller</a>
+                <a href="#">Linux</a>
+                <a href="#">ChatGPT</a>
+                <a href="#">DevOps</a>
+                <a href="#">Java</a>
+                <a href="#">Python</a>
+                <a href="#">Kubernetes</a>
+              </div>
+            </div>
+            <div class="dropdown">
+              <a href="#">Business</a>
+              <div class="popup-content">
+                <a href="#">Enterpreneurship</a>
+                <a href="#">Communication</a>
+                <a href="#">Management</a>
+                <a href="#">Sales</a>
+                <a href="#">Business Strategy</a>
+                <a href="#">Project Management</a>
+                <a href="#">Business Law</a>
+                <a href="#">Business Analytics& Intelligence</a>
+                <a href="#">Human Resources</a>
+                <a href="#">E-Commerce</a>
+              </div>
+            </div>
+            <div class="dropdown">
+              <a href="#">Finance & Accounting</a>
+              <div class="popup-content">
+                <a href="#">Accounting & Bookkeeping</a>
+                <a href="#">Compliance</a>
+                <a href="#">Cryptocurrency & Blockchain</a>
+                <a href="#">Economics</a>
+                <a href="#">Finance</a>
+                <a href="#">Finance Cert & Exam Prep</a>
+                <a href="#">Financial Modeling & analysis</a>
+                <a href="#">Investing & Trading</a>
+                <a href="#">Money Management Tools</a>
+              </div>
+            </div>
+            <div class="dropdown">
+              <a href="#">Office Productivity</a>
+              <div class="popup-content">
+                <a href="#">Microsoft Excel</a>
+                <a href="#">MAC Basics</a>
+                <a href="#">Google Drive</a>
+                <a href="#">SAP Material Management</a>
+                <a href="#">Oracle Database</a>
+                <a href="#">PL/SQL</a>
+                <a href="#">Project Management</a>
+                <a href="#">Typing</a>
+                <a href="#">Google Sheet</a>
+              </div>
+            </div>
+            <div class="dropdown">
+              <a href="#">Personal Development</a>
+              <div class="popup-content">
+                <a href="#">Life Coach Training</a>
+                <a href="#">Personal Development</a>
+                <a href="#">Time Management</a>
+                <a href="#">Management Skills</a>
+                <a href="#">Interview Skills</a>
+                <a href="#">Communication Skills</a>
+                <a href="#">Creative Writing</a>
+                <a href="#">Neuroplasticity</a>
+
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <a href="#">Design</a>
+              <div class="popup-content">
+                <a href="#">Web Design</a>
+                <a href="#">Graphics Design & illustration</a>
+                <a href="#">Design Tools</a>
+                <a href="#">User Experience Design</a>
+                <a href="#">Game Design</a>
+                <a href="#">3D Animation</a>
+
+
+              </div>
+            </div>
+
+            <div></div>
+
+
+            <div class="dropdown">
+              <a href="#">Lifestyle</a>
+              <div class="popup-content">
+                <a href="#">Arts & Crafts</a>
+                <a href="#">Beauty & Makeup</a>
+                <a href="#">Esoteric Practices</a>
+                <a href="#">Food & Beverage</a>
+                <a href="#">Gaming</a>
+
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <a href="#">Photography & Video</a>
+              <div class="popup-content">
+                <a href="#">Digital Photography</a>
+                <a href="#">Photography</a>
+                <a href="#">Portrait Photography</a>
+                <a href="#">Photography Tools</a>
+                <a href="#">Video Design</a>
+
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <a href="#">Health & Fitness</a>
+              <div class="popup-content">
+                <a href="#">Fitness</a>
+                <a href="#">Sports</a>
+                <a href="#">Yoga</a>
+                <a href="#">Mental Health</a>
+                <a href="#">Safety & First Aid</a>
+
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <a href="#">Music</a>
+              <div class="popup-content">
+                <a href="#">Instruments</a>
+                <a href="#">Music Production</a>
+                <a href="#">Music Fundametals</a>
+                <a href="#">Vocal</a>
+                <a href="#">Music Techniques</a>
+
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <a href="#">Teaching & Academics</a>
+              <div class="popup-content">
+                <a href="#">Engineering</a>
+                <a href="#">Humanities</a>
+                <a href="#">Language Learing</a>
+                <a href="#">Maths & Science</a>
+
+              </div>
+            </div>
+            <div class="dropdown">
+              <a href="#">Marketing</a>
+              <div class="popup-content">
+                <a href="#">Digital Marketing</a>
+                <a href="#">Social Marketing</a>
+                <a href="#">Product Marketing</a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <a id="career" href="career-support.html" class="nav-link">Career Support</a>
+      <div class="nav-right">
+        <div class="more-menu">
+          <!--  <button id="more1" class="more-button" onclick="toggleMoreMenu()">More</button> -->
+          <a id="career" href="payment-history.html" class="nav-link">Payment History</a>
+          <!-- <div class="more-content"> -->
+          <!-- <a href="./about-us.html">About Us</a> -->
+          <!-- <a href="#faq">FAQ</a> -->
+          <!-- <a href="./career-support.html">Career Support</a> -->
+          <!-- <a href="#blog">Blog</a> -->
+          <!-- </div> -->
+        </div>
+      </div>
+
+
+
+      <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Search for courses..."
+          oninput="showSuggestions(this.value)">
+        <button type="button" class="search-button" onclick="goToCourse()">🔍</button>
+        <div class="suggestions" id="suggestions"></div>
+      </div>
+
+
+      <div class="nav-center">
+        <a href="index.html" class="nav-link">Home</a>
+        <a id="course" href="#courses-section" class="nav-link">Courses</a>
+        <a href="about-us.html" class="nav-link">About Us</a>
+        <a href="#contact-menu" class="nav-link">Contact</a>
+      </div>
+
+
+      <div class="nav-right">
+        <div class="profile-dropdown">
+          <img src="./images/profile-logo.jpg" alt="Profile" class="profile-icon" />
+          <div class="profile-popup">
+            <img src="./images/profile-logo.jpg" alt="Profile" class="popup-profile-icon" />
+            <div class="profile-info">
+              <p class="profile-name">Rutik Gurav</p>
+              <p class="profile-email">rutikgurav15@gmail.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+  </header>
+
+
+
+  <!-- Main Section -->
+  <main>
+    <section class="home">
+      <aside class="login-page">
+        <h1>
+          Crack your goal with <br />
+          India's top educators
+        </h1>
+        <h3>
+          Over <span class="highlight">10 Crore</span> learners trust us for their preparation
+        </h3>
+        <input type="tel" id="mobile-number" maxlength="10" placeholder="Enter your mobile number" />
+        <p class="otp-text">We'll send an OTP for verification</p>
+        <button class="join-free-btn" onclick="validateAndRedirect()">Join for free</button>
+      </aside>
+
+      <aside class="home-image">
+        <img src="./images/home-image.jpg" alt="Learning Image" />
+      </aside>
+    </section>
+
+    <div class="header">
+      <h2 class="main-heading">Success story of Student!</h2>
+    </div>
+    <div class="sectionn">
+      <!-- <h2><span>IT Courses❤️</span></h2> -->
+      <div class="three1">
+        <div class="rutik1">
+
+          <img src="./images/new/friend1.jpg" alt="Friend 1" />
+          <h1>Rutik Gurav</h1>
+          <h4>Cloud Computing</h4>
+
+          <div class="career-path">
+            <p>Vice President</p>
+            <p>Barclays Capital</p>
+            <p class="arrow">↓</p>
+            <!-- Arrow between positions -->
+            <p>Vice President - Engineering Manager</p>
+            <p>Wells Fargo</p>
+          </div>
+        </div>
+        <div class="rutik1">
+          <img src="./images/new/friend2.jpg" alt="Friend 2" />
+          <h1>Digambar Gurav</h1>
+          <h4>Cyber Security</h4>
+          <div class="career-path">
+            <p>Senior Technical Account Manager</p>
+            <p>Amazon Web Services (AWS)</p>
+            <p class="arrow">↓</p>
+            <!-- Arrow between positions -->
+            <p>Sr. Technical Account Manager</p>
+            <p>Google</p>
+          </div>
+        </div>
+        <div class="rutik1">
+          <img src="./images/new/friend3.jpg" alt="Friend 3" />
+          <h1>Pratik Gurav</h1>
+          <h4>Data Science</h4>
+          <div class="career-path">
+            <p>Business Development Executive</p>
+            <p>Dynamo Consulting Services Limited</p>
+            <p class="arrow">↓</p>
+            <!-- Arrow between positions -->
+            <p>Associate Business Analyst</p>
+            <p>Cotiviti</p>
+          </div>
+        </div>
+        <div class="rutik1">
+          <img src="./images/new/friend4.jpg" alt="Friend 4" />
+          <h1>Rohan Gurav</h1>
+          <h4>Digital Marketing</h4>
+          <div class="career-path">
+            <p>Digital Content Creator</p>
+            <p>The Times of India</p>
+            <p class="arrow">↓</p>
+            <!-- Arrow between positions -->
+            <p>Customer Support Senior Associate Ads Specialist</p>
+            <p>Google Operations Center</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- /////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <h2>World-class professionals with in-demand skills in top domains</h2>
+    <div class="row">
+      <div class="column">
+        <div class="card">
+          <div class="card-title">Data</div>
+          <div class="card-icon">
+            <i class="fas fa-database"></i>
+          </div>
+          <ul class="card-list">
+            <li>
+              Data Science
+              <span class="arrow">&#10145;</span>
+            </li>
+            <li>
+              Machine Learning
+              <span class="arrow">&#10145;</span>
+            </li>
+            <li>
+              Artificial Intelligence
+              <span class="arrow">&#10145;</span>
+            </li>
+            <li>
+              Big Data
+              <span class="arrow">&#10145;</span>
+            </li>
+            <li>
+              Deep Learning
+              <span class="arrow">&#10145;</span>
+            </li>
+            <li>
+              Data Visualization
+              <span class="arrow">&#10145;</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <div class="card-title">Technology</div>
+          <div class="card-icon">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <ul class="card-list">
+            <li>
+              Front-end Development
+              <span class="arrow">&#10145;</span>
+            </li>
+            <li>
+              Cloud Computing
+              <span class="arrow">&#10145;</span>
+            </li>
+            <li>
+              Dev Ops
+              <span class="arrow">&#10145;</span>
+            </li>
+            <li>
+              Cyber Security
+              <span class="arrow">&#10145;</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <div class="card-title">Business</div>
+          <div class="card-icon">
+            <i class="fas fa-briefcase"></i>
+          </div>
+          <ul class="card-list">
+            <li>
+              Business Analytics
+              <span class="arrow">&#10145;</span>
+            </li>
+            <li>
+              Digital Marketing
+              <span class="arrow">&#10145;</span>
+            </li>
+            <li>
+              Management
+              <span class="arrow">&#10145;</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- /////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+
+    <!-- /////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <div class="section" id="courses-section">
+      <h2><span>Popular IT Courses❤️</span></h2>
+      <div class="three">
+        <div id="dsml" class="rutik" data-course-name="Data Science and Machine Learning" data-updated="July 2023"
+          data-hours="48 total hours" data-level="All Levels"
+          data-description="Master data science and machine learning to analyze data and build predictive models.">
+          <img src="./images/new/ml.jpg" alt="Friend 1" />
+          <h3>Data Science and Machine Learning</h3>
+          <p>This course covers data analysis, machine learning algorithms, statistical modeling, and data
+            visualization, equipping learners with the skills to work with data effectively.</p>
+          <p>⭐9.9k+ Learners •Advance</p>
+          <p>₹25000</p>
+          <button class="enroll-btn" data-course="Data Science and Machine Learning" data-amount="25000">
+            Enroll
+          </button>
+        </div>
+        <div id="cloudcomputing" class="rutik" data-course-name="Cloud Computing" data-updated="July 2023"
+          data-hours="48 total hours" data-level="All Levels"
+          data-description="Understand cloud architecture to build, deploy, and scale applications globally.">
+          <img src="./images/new/cc.jpg" alt="Friend 2" />
+          <h3>Cloud Computing</h3>
+          <p>This course provides knowledge about cloud services (like AWS, Azure, and Google Cloud), cloud
+            architecture, deployment models, and cloud security, preparing students for cloud-related roles.</p>
+          <p>⭐9k+ Learners •Advance</p>
+          <p>₹25000</p>
+          <button class="enroll-btn" data-course="Cloud Computing" data-amount="25000">
+            Enroll
+          </button>
+        </div>
+        <div id="cybersecurity" class="rutik" data-course-name="Cybersecurity" data-updated="July 2023"
+          data-hours="48 total hours" data-level="All Levels"
+          data-description="Learn to protect systems, networks, and data from cyber threats and vulnerabilities.">
+          <img src="./images/new/ss.jpg" alt="Friend 3" />
+          <h3>Cybersecurity</h3>
+          <p>This course focuses on protecting systems, networks, and data from cyber threats. It includes topics like
+            ethical hacking, network security, risk management, and compliance.</p>
+          <p>⭐9.3k+ Learners •Advance</p>
+          <p>₹25000</p>
+          <button class="enroll-btn" data-course="Cybersecurity" data-amount="25000">
+            Enroll
+          </button>
+        </div>
+        <div id="fsd" class="rutik" data-course-name="Full Stack Development" data-updated="July 2023"
+          data-hours="48 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/fs.jpg" alt="Friend 4" />
+          <h3>Full Stack Development</h3>
+          <p>This course covers both front-end and back-end development technologies, including HTML, CSS, JavaScript,
+            React, Node.js, and databases, preparing learners to build complete web applications.</p>
+          <p>⭐9.3k+ Learners •Advance</p>
+          <p>₹25000</p>
+          <button class="enroll-btn" data-course="Full Stack Development" data-amount="25000">
+            Enroll
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span>Development Courses</span></h2>
+      <div class="first">
+        <div id="wd" class="rutik" data-course-name="Web Development" data-updated="March 2022"
+          data-hours="12 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/wd.jpg" alt="Friend 4" />
+          <h3>Web Development</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹2500</p>
+          <button class="enroll-btn" data-course="Web Development" data-amount="2500">
+            Enroll
+          </button>
+        </div>
+        <div id="ds" class="rutik" data-course-name="Data Science" data-updated="Dec 2021" data-hours="12 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ds.jpg" alt="Friend 4" />
+          <h3>Data Science</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹2500</p>
+          <button class="enroll-btn" data-course="Data Science" data-amount="2500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="md" class="rutik" data-course-name="Mobile App Development" data-updated="Jan 2024"
+          data-hours="12 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/md.jpg" alt="Friend 4" />
+          <h3>Mobile App Development</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹2500</p>
+          <button class="enroll-btn" data-course="Mobile App Development" data-amount="2500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="pl" class="rutik" data-course-name="Programming Language" data-updated="Feb 2020"
+          data-hours="12 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/pl.jpg" alt="Friend 4" />
+          <h3>Programming Language</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹2500</p>
+          <button class="enroll-btn" data-course="Programming Language" data-amount="2500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="gd" class="rutik" data-course-name="Game Development" data-updated="May 2021"
+          data-hours="12 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/gd.jpg" alt="Friend 4" />
+          <h3>Game Development</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹2500</p>
+          <button class="enroll-btn" data-course="Game Development" data-amount="2500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="ddd" class="rutik" data-course-name="Database Design & Development" data-updated="Feb 2020"
+          data-hours="12 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ddd.jpg" alt="Friend 4" />
+          <h3>Database Design & Development</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹2500</p>
+          <button class="enroll-btn" data-course="Database Design & Development" data-amount="2500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="st" class="rutik" data-course-name="Software Testing" data-updated="Sep 2022"
+          data-hours="12 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/st.jpg" alt="Friend 4" />
+          <h3>Software Testing</h3>
+          <p>⭐4.2k+ Learners •Intermediate</p>
+          <p>₹2500</p>
+          <button class="enroll-btn" data-course="Software Testing" data-amount="2500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="se" class="rutik" data-course-name="Software Engineering" data-updated="Oct 2024"
+          data-hours="12 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/se.jpg" alt="Friend 4" />
+          <h3>Software Engineering</h3>
+          <p>⭐4.3k+ Learners •Intermediate</p>
+          <p>₹2500</p>
+          <button class="enroll-btn" data-course="Software Engineering" data-amount="2500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="sdt" class="rutik" data-course-name="Software Development Tools" data-updated="Jan 2022"
+          data-hours="12 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/sdt.jpg" alt="Friend 4" />
+          <h3>Software Development Tools</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹2500</p>
+          <button class="enroll-btn" data-course="Full Stack Development" data-amount="2500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="ncd" class="rutik" data-course-name="No Code Development" data-updated="July 2020"
+          data-hours="12 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ncd.jpg" alt="Friend 4" />
+          <h3>No Code Development</h3>
+          <p>⭐4.0k+ Learners •Intermediate</p>
+          <p>₹2500</p>
+          <button class="enroll-btn" data-course="No Code Development" data-amount="2500">
+            Enroll
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <main>
+    <div class="section">
+      <h2><span>IT & Software Courses</span></h2>
+      <div class="first">
+        <div id="aws" class="rutik" data-course-name="AWS Certified Cloud Partitioner" data-updated="March 2022"
+          data-hours="10 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/aws.jpg" alt="Friend 4" />
+          <h3>AWS Certified Cloud Partitioner</h3>
+          <p>⭐5.0k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="AWS Certified Cloud Partitioner" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+        <div id="eh" class="rutik" data-course-name="Ethical Hacking" data-updated="Dec 2021"
+          data-hours="10 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/eh.jpg" alt="Friend 4" />
+          <h3>Ethical Hacking</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Ethical Hacking" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="ss" class="rutik" data-course-name="Cybersecurity" data-updated="Jan 2024" data-hours="10 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ss.jpg" alt="Friend 4" />
+          <h3>Cybersecurity</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Cybersecurity" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="mc" class="rutik" data-course-name="Microcontroller" data-updated="Feb 2020"
+          data-hours="10 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/mc.jpg" alt="Friend 4" />
+          <h3>Microcontroller</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Microcontroller" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="li" class="rutik" data-course-name="Linux" data-updated="May 2021" data-hours="10 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/li.jpg" alt="Friend 4" />
+          <h3>Linux</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Linux" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="cg" class="rutik" data-course-name="ChatGPT" data-updated="Feb 2020" data-hours="10 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/cg.jpg" alt="Friend 4" />
+          <h3>ChatGPT</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="ChatGPT" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="do" class="rutik" data-course-name="DevOps" data-updated="Sep 2022" data-hours="10 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/do.jpg" alt="Friend 4" />
+          <h3>DevOps</h3>
+          <p>⭐4.2k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="DevOps" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="ja" class="rutik" data-course-name="Java" data-updated="Oct 2024" data-hours="10 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ja.jpg" alt="Friend 4" />
+          <h3>Java</h3>
+          <p>⭐4.3k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Java" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="py" class="rutik" data-course-name="Python" data-updated="Jan 2022" data-hours="10 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/py.jpg" alt="Friend 4" />
+          <h3>Python</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Python" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="ku" class="rutik" data-course-name="Kubernates" data-updated="July 2020" data-hours="10 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ku.jpg" alt="Friend 4" />
+          <h3>Kubernates</h3>
+          <p>⭐4.0k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Kubernates" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+      </div>
+  </main>
+
+  <main>
+    <div class="section">
+      <h2><span>Business Courses</span></h2>
+      <div class="first">
+        <div id="ep" class="rutik" data-course-name="Enterpreneurship" data-updated="March 2022"
+          data-hours="10 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ep.jpg" alt="Friend 4" />
+          <h3>Enterpreneurship</h3>
+          <p>⭐5.0k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Enterpreneurship" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+        <div id="comm" class="rutik" data-course-name="Communication" data-updated="Dec 2021"
+          data-hours="10 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/comm.jpg" alt="Friend 4" />
+          <h3>Communication</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Communication" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="man" class="rutik" data-course-name="Management" data-updated="Jan 2024" data-hours="10 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/man.jpg" alt="Friend 4" />
+          <h3>Management</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Management" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="sal" class="rutik" data-course-name="Sales" data-updated="Feb 2020" data-hours="10 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/sal.jpg" alt="Friend 4" />
+          <h3>Sales</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Sales" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="bs" class="rutik" data-course-name="Business Strategy" data-updated="May 2021"
+          data-hours="10 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/bs.jpg" alt="Friend 4" />
+          <h3>Business Strategy</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Business Strategy" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="pm" class="rutik" data-course-name="Project Management" data-updated="Feb 2020"
+          data-hours="10 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/pm.jpg" alt="Friend 4" />
+          <h3>Project Management</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Project Management" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="bl" class="rutik" data-course-name="Business Law" data-updated="Sep 2022" data-hours="10 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/bl.jpg" alt="Friend 4" />
+          <h3>Business Law</h3>
+          <p>⭐4.2k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Business Law" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="bai" class="rutik" data-course-name="Business Analytics & Intelligence" data-updated="Oct 2024"
+          data-hours="10 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/bai.jpg" alt="Friend 4" />
+          <h3>Business Analytics & Intelligence</h3>
+          <p>⭐4.3k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Business Analytics & Intelligence" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="hr" class="rutik" data-course-name="Human Resources" data-updated="Jan 2022"
+          data-hours="10 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/hr.jpg" alt="Friend 4" />
+          <h3>Human Resources</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="Human Resources" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+
+        <div id="ec" class="rutik" data-course-name="E-Commerce" data-updated="July 2020" data-hours="10 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ec.jpg" alt="Friend 4" />
+          <h3>E-Commerce</h3>
+          <p>⭐4.0k+ Learners •Intermediate</p>
+          <p>₹2000</p>
+          <button class="enroll-btn" data-course="E-Commerce" data-amount="2000">
+            Enroll
+          </button>
+        </div>
+      </div>
+  </main>
+
+  <main>
+    <div class="section">
+      <h2><span>Finance & Accounting Courses</span></h2>
+      <div class="first">
+        <div id="ab" class="rutik" data-course-name="Accounting & Bookkeeping" data-updated="March 2022"
+          data-hours="5 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ab.jpg" alt="Friend 4" />
+          <h3>Accounting & Bookkeeping</h3>
+          <p>⭐4.5k+ Learners •Beginner</p>
+          <p>₹500</p>
+          <button class="enroll-btn" data-course="Accounting & Bookkeeping" data-amount="500">
+            Enroll
+          </button>
+        </div>
+        <div id="comp" class="rutik" data-course-name="Compliance" data-updated="Dec 2021" data-hours="5 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/comp.jpg" alt="Friend 4" />
+          <h3>Compliance</h3>
+          <p>⭐4.4k+ Learners •Beginner</p>
+          <p>₹500</p>
+          <button class="enroll-btn" data-course="Compliance" data-amount="500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="cb" class="rutik" data-course-name="Cryptocurrency & Blockchain" data-updated="Jan 2024"
+          data-hours="5 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/cb.jpg" alt="Friend 4" />
+          <h3>Cryptocurrency & Blockchain</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹500</p>
+          <button class="enroll-btn" data-course="Cryptocurrency & Blockchain" data-amount="500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="eco" class="rutik" data-course-name="Economics" data-updated="Feb 2020" data-hours="5 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/eco.jpg" alt="Friend 4" />
+          <h3>Economics</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹500</p>
+          <button class="enroll-btn" data-course="Economics" data-amount="500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="fi" class="rutik" data-course-name="Finance" data-updated="May 2021" data-hours="5 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/fi.jpg" alt="Friend 4" />
+          <h3>Finance</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹500</p>
+          <button class="enroll-btn" data-course="Finance" data-amount="500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="fc" class="rutik" data-course-name="Finance Cert & Exam Prep" data-updated="Feb 2020"
+          data-hours="5 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/fc.jpg" alt="Friend 4" />
+          <h3>Finance Cert & Exam Prep</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹500</p>
+          <button class="enroll-btn" data-course="Finance Cert & Exam Prep" data-amount="500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="fm" class="rutik" data-course-name="Financial Modeling & analysis" data-updated="Sep 2022"
+          data-hours="5 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/fm.jpg" alt="Friend 4" />
+          <h3>Financial Modeling & analysis</h3>
+          <p>⭐4.2k+ Learners •Intermediate</p>
+          <p>₹500</p>
+          <button class="enroll-btn" data-course="Financial Modeling & analysis" data-amount="500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="it" class="rutik" data-course-name="Investing & Trading" data-updated="Oct 2024"
+          data-hours="5 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/it.jpg" alt="Friend 4" />
+          <h3>Investing & Trading</h3>
+          <p>⭐4.3k+ Learners •Intermediate</p>
+          <p>₹500</p>
+          <button class="enroll-btn" data-course="Investing & Trading" data-amount="500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="mmt" class="rutik" data-course-name="Money Management Tools" data-updated="Jan 2022"
+          data-hours="5 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/mmt.jpg" alt="Friend 4" />
+          <h3>Money Management Tools</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹500</p>
+          <button class="enroll-btn" data-course="Money Management Tools" data-amount="500">
+            Enroll
+          </button>
+        </div>
+
+      </div>
+  </main>
+
+  <main>
+    <div id="abc1" class="section">
+      <h2><span>Office Productivity Courses</span></h2>
+      <div class="first">
+        <div id="me" class="rutik" data-course-name="Microsoft Excel" data-updated="March 2022"
+          data-hours="4 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/me.jpg" alt="Friend 4" />
+          <h3>Microsoft Excel</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹400</p>
+          <button class="enroll-btn" data-course="Microsoft Excel" data-amount="400">
+            Enroll
+          </button>
+        </div>
+        <div id="mb" class="rutik" data-course-name="MAC Basics" data-updated="Dec 2021" data-hours="12 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/mb.jpg" alt="Friend 4" />
+          <h3>MAC Basics</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹400</p>
+          <button class="enroll-btn" data-course="MAC Basics" data-amount="400">
+            Enroll
+          </button>
+        </div>
+
+        <div id="gdd" class="rutik" data-course-name="Google Drive" data-updated="Jan 2024" data-hours="4 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/gdd.jpg" alt="Friend 4" />
+          <h3>Google Drive</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹400</p>
+          <button class="enroll-btn" data-course="Google Drive" data-amount="400">
+            Enroll
+          </button>
+        </div>
+
+        <div id="smm" class="rutik" data-course-name="SAP Material Management" data-updated="Feb 2020"
+          data-hours="4 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/smm.jpg" alt="Friend 4" />
+          <h3>SAP Material Management</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹400</p>
+          <button class="enroll-btn" data-course="SAP Material Management" data-amount="400">
+            Enroll
+          </button>
+        </div>
+
+        <div id="od" class="rutik" data-course-name="Oracle Database" data-updated="May 2021" data-hours="4 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/od.jpg" alt="Friend 4" />
+          <h3>Oracle Database</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹400</p>
+          <button class="enroll-btn" data-course="Oracle Database" data-amount="400">
+            Enroll
+          </button>
+        </div>
+
+        <div id="pll" class="rutik" data-course-name="PL/SQL" data-updated="Feb 2020" data-hours="4 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/pll.jpg" alt="Friend 4" />
+          <h3>PL/SQL</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹400</p>
+          <button class="enroll-btn" data-course="PL/SQL" data-amount="400">
+            Enroll
+          </button>
+        </div>
+
+        <div id="pro" class="rutik" data-course-name="Project Management" data-updated="Sep 2022"
+          data-hours="4 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/pro.jpg" alt="Friend 4" />
+          <h3>Project Management</h3>
+          <p>⭐4.2k+ Learners •Intermediate</p>
+          <p>₹400</p>
+          <button class="enroll-btn" data-course="Project Management" data-amount="400">
+            Enroll
+          </button>
+        </div>
+
+        <div id="typ" class="rutik" data-course-name="Typing" data-updated="Oct 2024" data-hours="4 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/typ.jpg" alt="Friend 4" />
+          <h3>Typing</h3>
+          <p>⭐4.3k+ Learners •Intermediate</p>
+          <p>₹400</p>
+          <button class="enroll-btn" data-course="Typing" data-amount="400">
+            Enroll
+          </button>
+        </div>
+
+        <div id="gs" class="rutik" data-course-name="Google Sheet" data-updated="Jan 2022" data-hours="4 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/gs.jpg" alt="Friend 4" />
+          <h3>Google Sheet</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹400</p>
+          <button class="enroll-btn" data-course="Google Sheet" data-amount="400">
+            Enroll
+          </button>
+        </div>
+      </div>
+  </main>
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <main>
+    <div id="abc1" class="section">
+      <h2><span>Personal Development Courses</span></h2>
+      <div class="first">
+        <div id="lc" class="rutik" data-course-name="Life Coach Training" data-updated="March 2022"
+          data-hours="3 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/lc.jpg" alt="Friend 4" />
+          <h3>Life Coach Training</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="Life Coach Training" data-amount="300">
+            Enroll
+          </button>
+        </div>
+        <div id="ped" class="rutik" data-course-name="Personal Development" data-updated="Dec 2021"
+          data-hours="3 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ped.jpg" alt="Friend 4" />
+          <h3>Personal Development</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="Personal Development" data-amount="300">
+            Enroll
+          </button>
+        </div>
+
+        <div id="tm" class="rutik" data-course-name="Time Management" data-updated="Jan 2024" data-hours="3 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/tm.jpg" alt="Friend 4" />
+          <h3>Time Management</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="Time Management" data-amount="300">
+            Enroll
+          </button>
+        </div>
+
+        <div id="ms" class="rutik" data-course-name="Management Skills" data-updated="Feb 2020"
+          data-hours="3 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ms.jpg" alt="Friend 4" />
+          <h3>Management Skills</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="Management Skills" data-amount="300">
+            Enroll
+          </button>
+        </div>
+
+        <div id="is" class="rutik" data-course-name="Interview Skills" data-updated="May 2021"
+          data-hours="3 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/is.jpg" alt="Friend 4" />
+          <h3>Interview Skills</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="Interview Skills" data-amount="300">
+            Enroll
+          </button>
+        </div>
+
+        <div id="cs" class="rutik" data-course-name="Communication Skills" data-updated="Feb 2020"
+          data-hours="3 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/cs.jpg" alt="Friend 4" />
+          <h3>Communication Skills</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="Communication Skills" data-amount="300">
+            Enroll
+          </button>
+        </div>
+
+        <div id="cw" class="rutik" data-course-name="Creative Writing" data-updated="Sep 2022"
+          data-hours="3 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/cw.jpg" alt="Friend 4" />
+          <h3>Creative Writing</h3>
+          <p>⭐4.2k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="Creative Writing" data-amount="300">
+            Enroll
+          </button>
+        </div>
+
+        <div id="neo" class="rutik" data-course-name="Neuroplasticity" data-updated="Oct 2024"
+          data-hours="3 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/neo.jpg" alt="Friend 4" />
+          <h3>Neuroplasticity</h3>
+          <p>⭐4.3k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="Neuroplasticity" data-amount="300">
+            Enroll
+          </button>
+        </div>
+      </div>
+  </main>
+
+  <main>
+    <div id="abc1" class="section">
+      <h2><span>Design Courses</span></h2>
+      <div class="first">
+        <div id="webd" class="rutik" data-course-name="Web Design" data-updated="March 2022" data-hours="3 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/webd.jpg" alt="Friend 4" />
+          <h3>Web Design</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="Web Design" data-amount="300">
+            Enroll
+          </button>
+        </div>
+        <div id="gdi" class="rutik" data-course-name="Graphics Design & illustration" data-updated="Dec 2021"
+          data-hours="3 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/gdi.jpg" alt="Friend 4" />
+          <h3>Graphics Design & illustration</h3>
+          <p>⭐4.4k+ Learners •Beginner</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="Graphics Design & illustration" data-amount="300">
+            Enroll
+          </button>
+        </div>
+
+        <div id="dt" class="rutik" data-course-name="Design Tools" data-updated="Jan 2024" data-hours="3 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/dt.jpg" alt="Friend 4" />
+          <h3>Design Tools</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="Design Tools" data-amount="300">
+            Enroll
+          </button>
+        </div>
+
+        <div id="ued" class="rutik" data-course-name="User Experience Design" data-updated="Feb 2020"
+          data-hours="3 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ued.jpg" alt="Friend 4" />
+          <h3>User Experience Design</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="User Experience Design" data-amount="300">
+            Enroll
+          </button>
+        </div>
+
+        <div id="gam" class="rutik" data-course-name="Game Design" data-updated="May 2021" data-hours="3 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/gam.jpg" alt="Friend 4" />
+          <h3>Game Design</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="Game Design" data-amount="300">
+            Enroll
+          </button>
+        </div>
+
+        <div id="3d" class="rutik" data-course-name="3D Animation" data-updated="Feb 2020" data-hours="3 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/3d.jpg" alt="Friend 4" />
+          <h3>3D Animation</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹300</p>
+          <button class="enroll-btn" data-course="3D Animation" data-amount="300">
+            Enroll
+          </button>
+        </div>
+
+      </div>
+  </main>
+
+  <main>
+    <div id="abc1" class="section">
+      <h2><span>Lifestyle Courses</span></h2>
+      <div class="first">
+        <div id="ac" class="rutik" data-course-name="Arts & Crafts" data-updated="March 2022" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ac.jpg" alt="Friend 4" />
+          <h3>Arts & Crafts</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Arts & Crafts" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="bm" class="rutik" data-course-name="Beauty & Makeup" data-updated="Dec 2021" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/bm.jpg" alt="Friend 4" />
+          <h3>Beauty & Makeup</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Beauty & Makeup" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="epp" class="rutik" data-course-name="Esoteric Practices" data-updated="Jan 2024"
+          data-hours="2 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/epp.jpg" alt="Friend 4" />
+          <h3>Esoteric Practices</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Esoteric Practices" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="fb" class="rutik" data-course-name="Food Beverage" data-updated="Feb 2020" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/fb.jpg" alt="Friend 4" />
+          <h3>Food Beverage</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Food Beverage" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="gami" class="rutik" data-course-name="Gaming" data-updated="May 2021" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/gami.jpg" alt="Friend 4" />
+          <h3>Gaming</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Gaming" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+      </div>
+  </main>
+
+  <main>
+    <div id="abc1" class="section">
+      <h2><span>Photography & Video</span></h2>
+      <div class="first">
+        <div id="dp" class="rutik" data-course-name="Digital Photography" data-updated="March 2022"
+          data-hours="2 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/dp.jpg" alt="Friend 4" />
+          <h3>Digital Photography</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Digital Photography" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="pho" class="rutik" data-course-name="Photography" data-updated="Dec 2021" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/pho.jpg" alt="Friend 4" />
+          <h3>Photography</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Photography" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="pp" class="rutik" data-course-name="Portrait Photography" data-updated="Jan 2024"
+          data-hours="2 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/pp.jpg" alt="Friend 4" />
+          <h3>Portrait Photography</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Portrait Photography" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="pt" class="rutik" data-course-name="Photography Tools" data-updated="Feb 2020"
+          data-hours="2 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/pt.jpg" alt="Friend 4" />
+          <h3>Photography Tools</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Photography Tools" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="vd" class="rutik" data-course-name="Video Design" data-updated="May 2021" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/vd.jpg" alt="Friend 4" />
+          <h3>Video Design</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Video Design" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+      </div>
+  </main>
+
+  <main>
+    <div id="abc1" class="section">
+      <h2><span>Health & Fitness Courses</span></h2>
+      <div class="first">
+        <div id="fit" class="rutik" data-course-name="Fitness" data-updated="Dec 2021" data-hours="12 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/fit.jpg" alt="Friend 4" />
+          <h3>Fitness</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Fitness" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="spo" class="rutik" data-course-name="Sports" data-updated="Jan 2024" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/spo.jpg" alt="Friend 4" />
+          <h3>Sports</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Sports" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="yo" class="rutik" data-course-name="Yoga" data-updated="Feb 2020" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/yo.jpg" alt="Friend 4" />
+          <h3>Yoga</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Yoga" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="ment" class="rutik" data-course-name="Mental Health" data-updated="May 2021" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ment.jpg" alt="Friend 4" />
+          <h3>Mental Health</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Mental Health" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="sfa" class="rutik" data-course-name="Safety & First Aid" data-updated="May 2021"
+          data-hours="2 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/sfa.jpg" alt="Friend 4" />
+          <h3>Safety & First Aid</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Safety & First Aid" data-amount="200">
+            Enroll
+          </button>
+        </div>
+      </div>
+  </main>
+  <!-- //////////////////////////////////////////////////// -->
+  <main>
+    <div id="abc1" class="section">
+      <h2><span>Music Courses</span></h2>
+      <div class="first">
+        <div id="ins" class="rutik" data-course-name="Instruments" data-updated="March 2022" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ins.jpg" alt="Friend 4" />
+          <h3>Instruments</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Instruments" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="mp" class="rutik" data-course-name="Music Production" data-updated="Dec 2021"
+          data-hours="12 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/mp.jpg" alt="Friend 4" />
+          <h3>Music Production</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Music Production" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="mfu" class="rutik" data-course-name="Music Fundametals" data-updated="Jan 2024"
+          data-hours="2 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/mfu.jpg" alt="Friend 4" />
+          <h3>Music Fundametals</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Music Fundametals" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="voc" class="rutik" data-course-name="Vocal" data-updated="Feb 2020" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/voc.jpg" alt="Friend 4" />
+          <h3>Vocal</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Vocal" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="mtt" class="rutik" data-course-name="Music Techniques" data-updated="May 2021"
+          data-hours="12 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/mtt.jpg" alt="Friend 4" />
+          <h3>Music Techniques</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Music Techniques" data-amount="200">
+            Enroll
+          </button>
+        </div>
+      </div>
+  </main>
+
+  <main>
+    <div id="abc1" class="section">
+      <h2><span>Teaching & Academics Courses</span></h2>
+      <div class="first">
+        <div id="eng" class="rutik" data-course-name="Engineering" data-updated="March 2022" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/eng.jpg" alt="Friend 4" />
+          <h3>Engineering</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Engineering" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="hum" class="rutik" data-course-name="Humanities" data-updated="Dec 2021" data-hours="2 total hours"
+          data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/hum.jpg" alt="Friend 4" />
+          <h3>Humanities</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Humanities" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="ll" class="rutik" data-course-name="Language Learing" data-updated="Jan 2024"
+          data-hours="2 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/ll.jpg" alt="Friend 4" />
+          <h3>Language Learing</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Language Learing" data-amount="200">
+            Enroll
+          </button>
+        </div>
+
+        <div id="mat" class="rutik" data-course-name="Maths & Science" data-updated="Feb 2020"
+          data-hours="2 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/mat.jpg" alt="Friend 4" />
+          <h3>Maths & Science</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹200</p>
+          <button class="enroll-btn" data-course="Maths & Science" data-amount="200">
+            Enroll
+          </button>
+        </div>
+      </div>
+  </main>
+
+  <main>
+    <div id="abc1" class="section">
+      <h2><span>Marketing Courses</span></h2>
+      <div class="first">
+        <div id="digi" class="rutik" data-course-name="Digital Marketing" data-updated="March 2022"
+          data-hours="4 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/digi.jpg" alt="Friend 4" />
+          <h3>Digital Marketing</h3>
+          <p>⭐4.5k+ Learners •Intermediate</p>
+          <p>₹500</p>
+          <button class="enroll-btn" data-course="Digital Marketing" data-amount="500">
+            Enroll
+          </button>
+        </div>
+        <div id="soc" class="rutik" data-course-name="Social Marketing" data-updated="Dec 2021"
+          data-hours="4 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/soc.jpg" alt="Friend 4" />
+          <h3>Social Marketing</h3>
+          <p>⭐4.4k+ Learners •Intermediate</p>
+          <p>₹500</p>
+          <button class="enroll-btn" data-course="Social Marketing" data-amount="500">
+            Enroll
+          </button>
+        </div>
+
+        <div id="prod" class="rutik" data-course-name="Product Marketing" data-updated="Jan 2024"
+          data-hours="4 total hours" data-level="All Levels"
+          data-description="Become a versatile web developer skilled in front-end and back-end technologies.">
+          <img src="./images/new/prod.jpg" alt="Friend 4" />
+          <h3>Product Marketing</h3>
+          <p>⭐4.1k+ Learners •Intermediate</p>
+          <p>₹500</p>
+          <button class="enroll-btn" data-course="Product Marketing" data-amount="500">
+            Enroll
+          </button>
+        </div>
+
+      </div>
+  </main>
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+  <div class="extra-space">
+    <h2 style="background: transparent; color:rgb(243, 182, 14)">A learning solution designed to achieve business
+      results</h2>
+
+    <div class="row">
+      <div class="cloud-box">
+        <div class="cloud-image">
+          <img src="./images/aa.jpg" alt="Cloud Computing" />
+        </div>
+        <div class="cloud-title">A global learning solution</div>
+        <div class="cloud-info">
+          Our enterprise-ready features are designed to scale learning to tech teams across the organization (and
+          around the world).
+        </div>
+      </div>
+
+      <div class="data-box">
+        <div class="data-image">
+          <img src="./images/bb.jpg" alt="Data Science" />
+        </div>
+        <div class="data-title">Comprehensive content</div>
+        <div class="data-info">
+          We offer continuously-updated courses on emerging topics that keep your tech teams ahead of the curve.
+        </div>
+      </div>
+
+      <div class="ai-box">
+        <div class="ai-image">
+          <img src="./images/cc.jpg" alt="Artificial Intelligence" />
+        </div>
+        <div class="ai-title">Native-language learning</div>
+        <div class="ai-info">
+          Offer tech training in a variety of languages including English, Brazilian Portuguese, French, German,
+          Spanish, Italian, Polish, Turkish, Indonesian, Mandarin, Arabic, Russian, Korean*, and Japanese * –
+          *Premium collection add on
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  </div>
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+  <div class="extra-space">
+    <h2 style="background: transparent;">The most in-demand content taught by real-world experts</h2>
+    <p class="description">
+      Help your IT and engineering teams learn critical skills and prep for their next certification,
+    <p class="description">while maintaining productivity. With E-Learning Business, employees can upskill fast with
+    <p class="description">training that fits into the flow of work.</p>
+    </p>
+    </p>
+    <div class="row">
+      <div class="cloud-box">
+        <div class="cloud-image">
+          <img src="./images/Cloud-Computing.jpg" alt="Cloud Computing" />
+        </div>
+        <div class="cloud-title">Cloud Computing</div>
+        <div class="cloud-info">
+          Prepare for digital transformation now. Make sure your tech teams have cutting-edge cloud skills and
+          certification prep in topics like AWS, Google Cloud, Docker, and cloud security.
+        </div>
+      </div>
+
+      <div class="data-box">
+        <div class="data-image">
+          <img src="./images/Data-Science-1.jpg" alt="Data Science" />
+        </div>
+        <div class="data-title">Data Science & Analytics</div>
+        <div class="data-info">
+          Immerse your team in the art of data science. Deliver training on visualization tools, analytics platforms,
+          and much more. And offer deep training in critical skills like SQL, Tableau, Python, Excel, and R Studio.
+        </div>
+      </div>
+
+      <div class="ai-box">
+        <div class="ai-image">
+          <img src="./images/DevOps.jpg" alt="Artificial Intelligence" />
+        </div>
+        <div class="ai-title">DevOps</div>
+        <div class="ai-info">
+          Help your team members level up their careers. Offer certification prep, CI/CD, configuration management,
+          infrastructure, and System monitoring courses and more. Upskill employees in Azure, Dynatrace, GitHub, and
+          Kubernetes.
+        </div>
+      </div>
+
+      <div class="devops-box">
+        <div class="devops-image">
+          <img src="./images/WebDev.jpg" alt="DevOps" />
+        </div>
+        <div class="devops-title">WebDev</div>
+        <div class="devops-info">
+          Make sure your WebDev team has the most cutting-edge, just-in-time skills. Train them in front end, back
+          end, full stack development, app development and more. Offer deep dives into critical skills like FastAPI,
+          Angular, JavaScript, and Sass.
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+  <div class="hii">
+    <div class="hiii">
+      Upskill your tech talent with <span style="color: yellow;">E-Learning Business</span>
+      <div><button class="demo-button" onclick="openVideoPopup()">View free demo</button></div>
+    </div>
+
+    <!-- Popup Video Container -->
+    <div id="videoPopup" class="video-popup">
+      <div class="popup-content">
+        <span class="close-button" onclick="closeVideoPopup()">✖</span>
+        <iframe id="demoVideo" src="video\video\final_video.mp4" frameborder="0" allow="autoplay; encrypted-media"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <style>
+      .hii {
+        height: 200px;
+        width: 100%;
+        background-color: #bd44bd;
+        text-align: center;
+        color: white;
+        font-size: xx-large;
+        font-weight: bold;
+
+        /* Flexbox for centering */
+        display: flex;
+        /* Enable Flexbox */
+        justify-content: center;
+        /* Center horizontally */
+        align-items: center;
+  
+        /* Center vertically */
+      }
+      /* Popup Container */
+      .video-popup {
+    
+        display: none;
+        /* Initially hidden */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        /* Black overlay with transparency */
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        
+    
+      }
+
+      /* Popup Content */
+      .popup-content {
+        position: relative;
+        width: 80%;
+        max-width: 700px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Video Frame */
+      .popup-content iframe {
+        width: 100%;
+        height: 400px;
+        border-radius: 8px;
+
+      }
+
+      /* Close Button */
+      .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        color: black;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+      }
+    </style>
+
+  </div>
+
+
+  
+  <div class="contact-section" id="contact-menu">
+    <div class="contact-left">
+      <h3 style="font-size: 30px;">Contact Us</h3>
+      <p>For any queries please share your contact details and the team will reach out to you soon.</p>
+      <p>Email: <a href="mailto:corporate@greatlearning.in">rutikgurav15@gmail.com</a></p>
+    </div>
+
+    <div class="contact-right">
+      <form id="contact-form">
+        <div class="form-group">
+          <label for="full-name">Full Name</label>
+          <input type="text" id="full-name" name="full-name" placeholder="Full Name" required>
+        </div>
+        <div class="form-group">
+          <label for="mobile-no">Mobile No</label>
+          <input type="tel" id="mobile-no" name="mobile-no" placeholder="Mobile No" No required>
+        </div>
+        <div class="form-group">
+          <label for="company-name">Company Name</label>
+          <input type="text" id="company-name" name="company-name" placeholder="Company Name" required>
+        </div>
+        <div class="form-group">
+          <label for="company-email">Company Email</label>
+          <input type="email" id="company-email" name="company-email" placeholder="Company Email" required>
+        </div>
+        <div class="form-group">
+          <label for="designation">Designation</label>
+          <input type="text" id="designation" name="designation" placeholder="Designation" required>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+
+    </div>
+  </div>
+
+  <style>
+    .contact-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #1e8fff48;
+      justify-content: space-between;
+    }
+
+    .contact-left {
+      flex: 1;
+      padding-right: 20px;
+    }
+
+    .contact-right {
+      flex: 1;
+      padding-left: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      padding-top: -30px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid gray;
+      border-radius: 4px;
+      margin-left: -20px;
+      background: transparent;
+
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+
+  <!-- ///////////////// -->
+  <!-- Popup box -->
+
+  <div id="coursePopup" class="course-popup">
+    <h3 id="popupCourseName">Course Name</h3>
+    <p id="popupUpdated" style="color: rgb(18, 223, 18); font-size: small;">Updated: October 2024</p>
+    <p id="popupHours" style="color: rgb(2, 37, 2); font-size: small;">83.5 total hours • All Levels • Subtitles</p>
+    <p id="popupDescription" style="color: rgb(77, 72, 72);">
+      Learn the essential skills needed for working with data, mastering machine learning algorithms, and building
+      intelligent systems. Gain expertise in big data processing and data visualization.<br><br>
+
+      <strong>What you'll learn:</strong><br>
+      ✔️ You will gain hands-on experience with data manipulation and visualization techniques.<br>
+      ✔️ You will learn to implement machine learning algorithms to solve real-world problems.<br>
+      ✔️ You will develop skills in leveraging cloud technologies for deploying data-driven applications.
+    </p>
+    <button id="addToCartBtn">Add to Cart</button>
+    <button id="addToFavoritesBtn">❤️</button>
+  </div>
+
+
+  <!-- ///////////////// -->
+
+  <script>
+    // Select all enroll buttons
+    document.querySelectorAll(".enroll-btn").forEach((button) => {
+      button.addEventListener("click", function () {
+        const courseName = this.getAttribute("data-course");
+        const amount = this.getAttribute("data-amount");
+        window.location.href = `payment.html?course=${encodeURIComponent(
+          courseName
+        )}&amount=${encodeURIComponent(amount)}`;
+      });
+    });
+
+    const listItems = document.querySelectorAll(".card-list li");
+    listItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        // Toggle the arrow icon on click
+        item.querySelector(".arrow").classList.toggle("active");
+      });
+    });
+
+
+    // Get all course cards
+    const courseCards = document.querySelectorAll('.rutik');
+    const popup = document.getElementById('coursePopup');
+    let activeCard = null;
+
+    // Function to show the popup
+    function showPopup(courseElement) {
+      const courseName = courseElement.getAttribute('data-course-name');
+      const updated = courseElement.getAttribute('data-updated');
+      const hours = courseElement.getAttribute('data-hours');
+      const level = courseElement.getAttribute('data-level');
+      const description = courseElement.getAttribute('data-description');
+
+      document.getElementById('popupCourseName').textContent = courseName;
+      document.getElementById('popupUpdated').textContent = `Updated: ${updated}`;
+      document.getElementById('popupHours').textContent = `${hours} • ${level} • Subtitles`;
+      document.getElementById('popupDescription').innerHTML = `
+      <strong>Description:</strong><br>
+      ${description}<br><br>
+      <strong>What you'll learn:</strong><br>
+      ✔️ You will gain hands-on experience with data manipulation and visualization techniques.<br>
+✔️ You will learn to implement machine learning algorithms to solve real-world problems.<br>
+✔️ You will develop skills in leveraging cloud technologies for deploying data-driven applications.
+  `;
+
+
+
+      // Show the popup
+      popup.style.display = 'block';
+      popup.style.top = `${courseElement.getBoundingClientRect().top + window.scrollY}px`;
+
+      // Check if there's space to open to the right; if not, open to the left
+      const rightSpace = window.innerWidth - courseElement.getBoundingClientRect().right;
+      if (rightSpace > popup.offsetWidth + 20) {
+        popup.style.left = `${courseElement.getBoundingClientRect().right + 10}px`;
+      } else {
+        popup.style.left = `${courseElement.getBoundingClientRect().left - popup.offsetWidth - 10}px`;
+      }
+
+      // Mark this card as the active card
+      activeCard = courseElement;
+    }
+
+    // Add event listeners to each course card
+    courseCards.forEach(courseCard => {
+      courseCard.addEventListener('mouseenter', function () {
+        showPopup(courseCard);
+      });
+
+      courseCard.addEventListener('mouseleave', function () {
+        // Hide the popup when the mouse leaves
+        popup.style.display = 'none';
+        activeCard = null;
+      });
+    });
+
+    // Add to Cart and Add to Favorites functionality
+    document.getElementById('addToCartBtn').addEventListener('click', function () {
+      if (activeCard) {
+        const courseName = activeCard.getAttribute('data-course-name');
+        alert(`${courseName} has been added to your cart.`);
+      }
+    });
+
+    document.getElementById('addToFavoritesBtn').addEventListener('click', function () {
+      if (activeCard) {
+        const courseName = activeCard.getAttribute('data-course-name');
+        alert(`${courseName} has been added to your favorites.`);
+      }
+    });
+
+
+
+    // Get all course cards
+    document.querySelectorAll('.course-link').forEach(courseLink => {
+      courseLink.addEventListener('mouseenter', (event) => {
+        const coursePopup = document.getElementById('coursePopup');
+
+        // Position the popup near the course link
+        const rect = event.target.getBoundingClientRect();
+        coursePopup.style.top = `${rect.bottom}px`;
+        coursePopup.style.left = `${rect.right + 10}px`;
+
+        // Set content based on the course
+        const courseName = event.target.dataset.course;
+        document.getElementById('popupCourseName').textContent = courseName;
+
+        // Show popup
+        coursePopup.style.display = 'block';
+      });
+
+      courseLink.addEventListener('mouseleave', () => {
+        const coursePopup = document.getElementById('coursePopup');
+        setTimeout(() => {
+          coursePopup.style.display = 'none';
+        }, 100);
+      });
+    });
+
+    document.getElementById('coursePopup').addEventListener('mouseenter', () => {
+      document.getElementById('coursePopup').style.display = 'block';
+    });
+
+    document.getElementById('coursePopup').addEventListener('mouseleave', () => {
+      document.getElementById('coursePopup').style.display = 'none';
+    });
+
+    // Button Click Validation
+    document.getElementById('addToCartBtn').addEventListener('click', () => {
+      alert("Course added to cart successfully!");
+    });
+
+    document.getElementById('addToFavoritesBtn').addEventListener('click', () => {
+      alert("Course added to favorites!");
+    });
+
+    // Function to display a temporary message
+    function displayMessage(message) {
+      const messageElement = document.createElement('div');
+      messageElement.textContent = message;
+      messageElement.className = 'popup-message';
+
+      // Append the message to the popup and show for 2 seconds
+      const coursePopup = document.getElementById('coursePopup');
+      coursePopup.appendChild(messageElement);
+
+      setTimeout(() => {
+        messageElement.remove();
+      }, 2000);
+    }
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    document.addEventListener('DOMContentLoaded', function () {
+      const dropdowns = document.querySelectorAll('.dropdown');
+      let activePopup = null;
+      let hideTimeout;
+
+      dropdowns.forEach(dropdown => {
+        const popup = dropdown.querySelector('.popup-content');
+
+        dropdown.addEventListener('mouseenter', () => {
+          clearTimeout(hideTimeout);
+
+          // Hide the previously active popup, if there is one
+          if (activePopup && activePopup !== popup) {
+            activePopup.style.display = 'none';
+          }
+
+          // Show the popup for the current dropdown and set it as active
+          popup.style.display = 'block';
+          activePopup = popup;
+        });
+
+        dropdown.addEventListener('mouseleave', () => {
+          hideTimeout = setTimeout(() => {
+            popup.style.display = 'none';
+            activePopup = null;  // Clear the active popup reference
+          }, 200); // 200ms delay before hiding
+        });
+
+        popup.addEventListener('mouseenter', () => {
+          clearTimeout(hideTimeout);  // Keep the popup open when hovering over it
+        });
+
+        popup.addEventListener('mouseleave', () => {
+          popup.style.display = 'none';
+          activePopup = null;  // Clear the active popup when leaving
+        });
+      });
+    });
+
+    ///////////////////////////////////////////////////////////////////////////////
+    function toggleMoreMenu() {
+      const moreContent = document.querySelector('.more-content');
+      moreContent.style.display = moreContent.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+      if (!event.target.matches('.more-button')) {
+        const dropdowns = document.getElementsByClassName("more-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+          const openDropdown = dropdowns[i];
+          if (openDropdown.style.display === 'block') {
+            openDropdown.style.display = 'none';
+          }
+        }
+      }
+    }
+
+    //////////////////////search button/////////////////////////////////////////////////
+    const courses = [
+      { name: "Data Science and Machine Learing", link: "courses.html#dsml" },
+      { name: "Cloud Computing", link: "courses.html#cloudcomputing" },
+      { name: "CyberSecurity", link: "courses.html#cybersecurity" },
+      { name: "Full Stack Development", link: "courses.html#fsd" },
+
+      { name: "Data Science", link: "courses.html#ds" },
+      { name: "Web Development", link: "courses.html#wd" },
+      { name: "Mobile App Development", link: "courses.html#md" },
+      { name: "Programming Language", link: "courses.html#pl" },
+      { name: "Game Development", link: "courses.html#gd" },
+      { name: "Database Design & Development", link: "courses.html#ddd" },
+      { name: "Software Testing", link: "courses.html#st" },
+      { name: "Software Engineering", link: "courses.html#se" },
+      { name: "Software Development Tools", link: "courses.html#sdt" },
+      { name: "No Code Development", link: "courses.html#ncd" },
+
+      { name: "AWS Certified Cloud Partitioner", link: "courses.html#aws" },
+      { name: "Ethical Hacking", link: "courses.html#eh" },
+      { name: "CyberSecurity", link: "courses.html#ss" },
+      { name: "Microcontroller", link: "courses.html#mc" },
+      { name: "Linux", link: "courses.html#li" },
+      { name: "ChatGPT", link: "courses.html#cg" },
+      { name: "DevOps", link: "courses.html#do" },
+      { name: "Java", link: "courses.html#ja" },
+      { name: "Python", link: "courses.html#py" },
+      { name: "Kubernate", link: "courses.html#ku" },
+
+      { name: "Enterpreneurship", link: "courses.html#ep" },
+      { name: "Communication", link: "courses.html#comm" },
+      { name: "Management", link: "courses.html#man" },
+      { name: "Sales", link: "courses.html#sal" },
+      { name: "Business Strategy", link: "courses.html#bs" },
+      { name: "Project Management", link: "courses.html#pm" },
+      { name: "Business Law", link: "courses.html#bl" },
+      { name: "Business Analytics & Intelligence", link: "courses.html#bai" },
+      { name: "Human Resources", link: "courses.html#hr" },
+      { name: "E-Commerce", link: "courses.html#ec" },
+
+      { name: "Accounting & Bookkeeping", link: "courses.html#ab" },
+      { name: "Compliance", link: "courses.html#comp" },
+      { name: "Cryptocurrency & Blockchain", link: "courses.html#cb" },
+      { name: "Economics", link: "courses.html#eco" },
+      { name: "Finance", link: "courses.html#fi" },
+      { name: "Finance Cert & Exam Prep", link: "courses.html#fc" },
+      { name: "Financial Modeling & analysis", link: "courses.html#fm" },
+      { name: "Investing & Trading", link: "courses.html#it" },
+      { name: "Money Management Tools", link: "courses.html#mmt" },
+
+      { name: "Microsoft Excel", link: "courses.html#me" },
+      { name: "MAC Basics", link: "courses.html#mb" },
+      { name: "Google Drive", link: "courses.html#gdd" },
+      { name: "SAP Material Management", link: "courses.html#smm" },
+      { name: "Oracle Database", link: "courses.html#od" },
+      { name: "PL/SQL", link: "courses.html#pl" },
+      { name: "Project Management", link: "courses.html#pro" },
+      { name: "Typing", link: "courses.html#typ" },
+      { name: "Google Sheet", link: "courses.html#gs" },
+
+
+      { name: "Life Coach Training", link: "courses.html#lc" },
+      { name: "Personal Development", link: "courses.html#ped" },
+      { name: "Time Management", link: "courses.html#tm" },
+      { name: "Management Skills", link: "courses.html#ms" },
+      { name: "Interview Skills", link: "courses.html#is" },
+      { name: "Communication Skills", link: "courses.html#cs" },
+      { name: "Creative Writing", link: "courses.html#cw" },
+      { name: "Neuroplasticity", link: "courses.html#neo" },
+
+      { name: "Web Design", link: "courses.html#webd" },
+      { name: "Graphics Design & illustration", link: "courses.html#gdi" },
+      { name: "Design Tools", link: "courses.html#dt" },
+      { name: "User Experience Design", link: "courses.html#ued" },
+      { name: "Game Design", link: "courses.html#gam" },
+      { name: "3D Animation", link: "courses.html#3d" },
+
+      { name: "Arts & Crafts", link: "courses.html#ac" },
+      { name: "Beauty & Makeup", link: "courses.html#bm" },
+      { name: "Esoteric Practices", link: "courses.html#epp" },
+      { name: "Food Beverage", link: "courses.html#fb" },
+      { name: "Gaming", link: "courses.html#gami" },
+
+      { name: "Digital Photography", link: "courses.html#dp" },
+      { name: "Photography", link: "courses.html#pho" },
+      { name: "Portrait Photography", link: "courses.html#pp" },
+      { name: "Photography Tools", link: "courses.html#pt" },
+      { name: "Video Design", link: "courses.html#vd" },
+
+
+      { name: "Fitness", link: "courses.html#fit" },
+      { name: "Sports", link: "courses.html#spo" },
+      { name: "Yoga", link: "courses.html#yo" },
+      { name: "Mental Health", link: "courses.html#ment" },
+      { name: "Safety & First Aid", link: "courses.html#sfa" },
+
+      { name: "Instruments", link: "courses.html#ins" },
+      { name: "Music Production", link: "courses.html#mp" },
+      { name: "Music Fundametals", link: "courses.html#mfu" },
+      { name: "Vocal", link: "courses.html#voc" },
+      { name: "Music Techniques", link: "courses.html#mtt" },
+
+      { name: "Engineering", link: "courses.html#eng" },
+      { name: "Humanities", link: "courses.html#hum" },
+      { name: "Language Learing", link: "courses.html#ll" },
+      { name: "Maths & Science", link: "courses.html#mat" },
+
+      { name: "Digital Marketing", link: "courses.html#digi" },
+      { name: "Social Marketing", link: "courses.html#soc" },
+      { name: "Product Marketing", link: "courses.html#prod" },
+
+    ];
+
+    function showSuggestions(query) {
+      const suggestionsBox = document.getElementById('suggestions');
+      suggestionsBox.innerHTML = '';
+      if (query.length === 0) {
+        suggestionsBox.style.display = 'none';
+        return;
+      }
+
+      const matches = courses.filter(course =>
+        course.name.toLowerCase().includes(query.toLowerCase())
+      );
+
+      if (matches.length === 0) {
+        suggestionsBox.style.display = 'none';
+      } else {
+        matches.forEach(course => {
+          const suggestionItem = document.createElement('div');
+          suggestionItem.classList.add('suggestion-item');
+          suggestionItem.textContent = course.name;
+          suggestionItem.onclick = () => selectCourse(course);
+          suggestionsBox.appendChild(suggestionItem);
+        });
+        suggestionsBox.style.display = 'block';
+      }
+    }
+
+    function selectCourse(course) {
+      document.querySelector('.search-input').value = course.name;
+      document.querySelector('.search-input').dataset.link = course.link;
+      document.getElementById('suggestions').style.display = 'none';
+    }
+
+    function goToCourse() {
+      const link = document.querySelector('.search-input').dataset.link;
+      if (link) {
+        window.location.href = link;
+      } else {
+        alert("Please select a course from the suggestions.");
+      }
+    }
+
+    document.addEventListener('click', function (e) {
+      const suggestionsBox = document.getElementById('suggestions');
+      if (!document.querySelector('.search-bar').contains(e.target)) {
+        suggestionsBox.style.display = 'none';
+      }
+    });
+
+
+    /* Success message*/
+
+    document.getElementById("contact-form").addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent form from refreshing the page
+
+      // Display a success message in a prompt
+      alert("Submitted Successfully!");
+
+      // Optionally, clear the form after submission
+      this.reset();
+    });
+
+
+
+  </script>
+
+
+
+  </main>
+  <script src="js/script.js"></script>
+</body>
+
+</html>

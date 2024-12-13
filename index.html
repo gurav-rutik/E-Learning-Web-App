@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<style>
+    /* Styling for the welcome screen */
+    .logo1:hover {
+        transform: scale(1.1);
+        transition: transform 0.3s ease-in-out;
+
+    }
+
+    .startBtn:hover {
+        background-color: #4CAF50;
+        color: white;
+        transition: background-color 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+    .welcome-text {
+        animation-name: rutik;
+    }
+
+    @keyframes rutik {
+        0% {
+            transform: translateY(-25px);
+        }
+
+        50% {
+            transform: translateY(-610px);
+        }
+
+        100% {
+            transform: translateY(-5px);
+        }
+    }
+
+    .developer-name {
+        font-size: 24px;
+        color: #d35106;
+        margin-top: 10px;
+        font-style: italic;
+        font-weight: bold;
+        overflow: hidden;
+        text-shadow: 2px 2px 7px black;
+        /* Ensures text is hidden before animation */
+        white-space: nowrap;
+        /* Prevents text wrapping */
+        border-right: 2px solid transparent;
+        /* Adds a cursor-like effect */
+        animation: typing 3s steps(25) 1s forwards, blink 0.5s step-end infinite;
+    }
+
+    /* Typing animation */
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: 100%;
+        }
+    }
+    
+</style>
+
+<body>
+
+    <div class="welcome-screen">
+        <img src="images/logo.png" alt="Logo" class="logo1">
+
+        <div class="welcome-text-container">
+            <h1 class="welcome-text">Welcome to India's Best E-Learning Platform</h1>
+            <p class="developer-name">Created by Rutik Gurav</p>
+            <button id="startBtn">Get Started</button>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
