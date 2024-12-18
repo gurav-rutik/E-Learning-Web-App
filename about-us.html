@@ -8,6 +8,24 @@
     <link rel="stylesheet" href="styles.css"> <!-- Link your main CSS file -->
 </head>
 <style>
+
+    @media (max-width: 768px) {
+        .navbar {
+          flex-direction: column; /* Stack items vertically */
+          height: auto; /* Adjust height */
+          padding: 10px; /* Reduce padding */
+        }
+      
+        .nav-left, .nav-right, .nav-center {
+          justify-content: center;
+          margin: 5px 0; /* Add spacing between sections */
+        }
+      
+        .nav-center {
+          flex-grow: 0; /* Prevent stretching */
+        }
+      }
+
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -138,7 +156,7 @@
     /* New Section for Logo Alignment */
     .nav-right {
         display: flex;
-        /* margin-left: 600px; */
+        margin-left: 620px; 
         align-items: center;
         justify-content: flex-end;
     }
@@ -150,6 +168,80 @@
         flex-grow: 1;
         gap: 10px;
         margin-left: 100px;
+    }
+
+    .nav-right {
+        display: flex;
+        /* margin-left: 600px; */
+        align-items: center;
+        justify-content: flex-end;
+    }
+    
+    .nav-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        gap: 10px;
+        margin-left: 100px;
+    }
+    
+    .logo {
+        width: 160px;
+        margin-right: 20px;
+        cursor: pointer;
+    }
+    .profile-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-left: 20px;
+    }
+    
+    .profile-dropdown {
+        position: relative; /* Make the parent relative for absolute positioning of the popup */
+        display: inline-block; /* Aligns the icon and popup together */
+    }
+    
+    .profile-popup {
+        display: none; /* Initially hide the popup */
+        position: absolute;
+        top: 60px; /* Adjust this to position the popup below the icon */
+        right: 0; /* Align to the right */
+        background-color: white;
+        min-width: 200px; /* Minimum width of the popup */
+        padding: 10px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.8);
+        z-index: 2; /* Ensure it appears above other elements */
+        border: 1px solid gray;
+    }
+    
+    .profile-dropdown:hover .profile-popup {
+        display: block; /* Show the popup on hover */
+    }
+    
+    .popup-profile-icon {
+        width: 50px; /* Set size for the profile photo in the popup */
+        height: 50px;
+        border-radius: 50%; /* Make it circular */
+        margin-bottom: 10px; /* Space below the image */
+        margin-left: 70px;
+    }
+    
+    .profile-info {
+        text-align: center; /* Center-align text */
+    }
+    
+    .profile-name {
+        font-weight: bold; /* Make name bold */
+        margin: 0; /* Remove default margin */
+        color: #555;
+    }
+    
+    .profile-email {
+        margin: 0; /* Remove default margin */
+        color: #555; /* Change color to distinguish from name */
     }
     
 
@@ -213,6 +305,18 @@
                     <a href="courses.html#courses-section" class="nav-link">Courses</a>
                     <!-- <a href="about-us.html" class="nav-link">About Us</a> -->
                     <a href="courses.html#contact-menu" class="nav-link">Contact</a>
+                </div>
+                <div class="nav-right">
+                    <div class="profile-dropdown">
+                        <img src="./images/profile-logo.jpg" alt="Profile" class="profile-icon" />
+                        <div class="profile-popup">
+                            <img src="./images/profile-logo.jpg" alt="Profile" class="popup-profile-icon" />
+                            <div class="profile-info">
+                                <p class="profile-name">Rutik Gurav</p>
+                                <p class="profile-email">rutikgurav15@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
