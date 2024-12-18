@@ -7,11 +7,30 @@
     <title>Career Support</title>
 </head>
 <style>
+
+    @media (max-width: 768px) {
+        .navbar {
+          flex-direction: column; /* Stack items vertically */
+          height: auto; /* Adjust height */
+          padding: 10px; /* Reduce padding */
+        }
+      
+        .nav-left, .nav-right, .nav-center {
+          justify-content: center;
+          margin: 5px 0; /* Add spacing between sections */
+        }
+      
+        .nav-center {
+          flex-grow: 0; /* Prevent stretching */
+        }
+      }
     body {
         font-family: Arial, sans-serif;
         line-height: 1.6;
         margin: 0;
         padding: 0;
+        background-color: #f4f4f4;
+        
     }
     
     header {
@@ -24,6 +43,7 @@
         justify-content: space-between;
         align-items: center;
         padding: 15px;
+        background-color: #333333ab;
     }
     
     .nav-link {
@@ -85,7 +105,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333333ab;
+    background-color: rgb(133, 128, 128);
     padding: 0 20px;
     margin-top: 0px;
     position: relative;
